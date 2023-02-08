@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import {
-    Alert,
-    AlertDescription,
-    AlertIcon,
-    AlertTitle,
     Box,
     Button,
     ButtonGroup,
@@ -13,7 +9,6 @@ import {
     CardHeader,
     Divider,
     Flex,
-    FlexProps,
     Heading,
     Icon,
     IconButton,
@@ -21,9 +16,16 @@ import {
     Spacer,
     Stack,
     Text,
-    theme,
 } from '@chakra-ui/react';
-import { TopNav } from './components/common';
+import {
+    PrimaryWrapper,
+    QuickActionBar,
+    QuickActionButton,
+    Tab,
+    Tabs,
+    TopNav,
+    useTabs,
+} from './components/common';
 import {
     AlarmClock,
     ChevronLeft,
@@ -34,123 +36,7 @@ import {
     Settings2,
 } from 'lucide-react';
 
-function MainWrapper(props: FlexProps) {
-    return (
-        <Flex
-            h="100%"
-            bg="blue.400"
-            gap="4">
-            {props.children}
-        </Flex>
-    );
-}
-
-function MainContent(props: FlexProps) {
-    return (
-        <Flex
-            bg="blue.50"
-            direction="column"
-            flex="1">
-            {props.children}
-        </Flex>
-    );
-}
-
-function MainContentTabs(props: FlexProps) {
-    return (
-        <Flex
-            bg="blue.500"
-            boxShadow={`0px -3px 1px -1px ${theme.colors.blue[600]} inset`}
-            pt="1"
-            px="4"
-            minHeight="42px">
-            {props.children}
-        </Flex>
-    );
-}
-
-function Tab() {
-    return (
-        <Flex
-            border="2px solid"
-            borderBottom="0"
-            borderColor="blue.600"
-            borderTopRadius="md"
-            bg="white"
-            px="3"
-            py="2">
-            <Text
-                fontSize="sm"
-                fontWeight="semibold">
-                Content Tab
-            </Text>
-        </Flex>
-    );
-}
-
-function QuickActions() {
-    return (
-        <Flex
-            borderBottom="1px"
-            borderBottomColor="gray.200"
-            bg="white"
-            px="4"
-            py="2">
-            <ButtonGroup
-                colorScheme="gray"
-                size="xs"
-                variant="quickAction">
-                <Button
-                    leftIcon={
-                        <Icon
-                            as={Settings2}
-                            boxSize="4"
-                        />
-                    }>
-                    Quick Action 1
-                </Button>
-                <Button
-                    leftIcon={
-                        <Icon
-                            as={Settings2}
-                            boxSize="4"
-                        />
-                    }>
-                    Quick Action 1
-                </Button>
-                <Button
-                    leftIcon={
-                        <Icon
-                            as={Settings2}
-                            boxSize="4"
-                        />
-                    }>
-                    Quick Action 2
-                </Button>
-                <Button
-                    leftIcon={
-                        <Icon
-                            as={Settings2}
-                            boxSize="4"
-                        />
-                    }>
-                    Quick Action 3
-                </Button>
-                <Button
-                    leftIcon={
-                        <Icon
-                            as={Settings2}
-                            boxSize="4"
-                        />
-                    }>
-                    Quick Action 4
-                </Button>
-            </ButtonGroup>
-        </Flex>
-    );
-}
-
-function Page() {
+function Content() {
     return (
         <Flex
             flex="1"
@@ -203,11 +89,11 @@ function Page() {
             />
             <Flex
                 alignItems="center"
-                justifyContent="center"
+                // justifyContent="center"
                 bg="whiteAlpha.600"
                 direction="column"
                 flex="1"
-                p="8">
+                p="16">
                 <Card
                     maxWidth="container.md"
                     boxShadow="xl">
@@ -331,26 +217,35 @@ function Page() {
 }
 
 function Sidebar() {
-    return <Box bg="orange.100">s</Box>;
+    return <Box bg="orange.100">sidebar</Box>;
 }
 
 export default function App() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const { Tabs } = useTabs();
+
     return (
         <Flex
             direction="column"
             h="100vh">
             <TopNav />
-            <MainWrapper>
-                <MainContent>
-                    <MainContentTabs>
-                        <Tab />
-                    </MainContentTabs>
-                    <QuickActions />
-                    <Page />
-                </MainContent>
+
+            <Flex // App wrappper
+                h="100%"
+                bg="blue.400"
+                gap="4">
+                <PrimaryWrapper borderTopRightRadius={sidebarOpen ? 'base' : '0'}>
+                    <Tabs />
+                    <QuickActionBar>
+                        <QuickActionButton icon={Settings2}>Quick Action 1</QuickActionButton>
+                        <QuickActionButton icon={Settings2}>Quick Action 2</QuickActionButton>
+                        <QuickActionButton icon={Settings2}>Quick Action 3</QuickActionButton>
+                        <QuickActionButton icon={Settings2}>Quick Action 4</QuickActionButton>
+                    </QuickActionBar>
+                    <Content />
+                </PrimaryWrapper>
                 {sidebarOpen && <Sidebar />}
-            </MainWrapper>
+            </Flex>
         </Flex>
     );
 }
