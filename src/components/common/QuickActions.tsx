@@ -31,7 +31,7 @@ export function QuickActionButton(props: ButtonProps & QuickActionButtonProps) {
                     />
                 )
             }
-            size="xs"
+            size="sm"
             variant="quickAction"
             {...props}>
             {children}

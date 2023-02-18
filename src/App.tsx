@@ -21,16 +21,16 @@ import {
     PrimaryWrapper,
     QuickActionBar,
     QuickActionButton,
-    Tab,
-    Tabs,
     TopNav,
     useTabs,
 } from './components/common';
 import {
     AlarmClock,
+    ArrowLeft,
     ChevronLeft,
     ChevronRight,
     Flag,
+    Option,
     Pencil,
     Settings,
     Settings2,
@@ -47,7 +47,24 @@ function Content() {
                 direction="column"
                 gap="2"
                 p="4">
-                <Flex>
+                <Flex
+                    align="center"
+                    gap="2">
+                    <IconButton
+                        aria-label=""
+                        colorScheme="blue"
+                        icon={
+                            <Icon
+                                as={ArrowLeft}
+                                boxSize="5"
+                            />
+                        }
+                        isRound
+                        size="sm"
+                        variant="ghost"
+                        _hover={{ bg: 'blue.100' }}
+                        _active={{ bg: 'blue.300' }}
+                    />
                     <Heading size="md">Exam 3</Heading>
                     <Spacer />
                     <Flex
@@ -222,7 +239,38 @@ function Sidebar() {
 
 export default function App() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const { Tabs } = useTabs();
+    const { Tabs } = useTabs([
+        {
+            _id: 'test_tab1',
+            content: () => <>test</>,
+            icon: Option,
+            name: 'MD810 Foundations',
+        },
+        {
+            _id: 'test_tab2',
+            content: () => <>test</>,
+            icon: Option,
+            name: 'Clinical Simulation',
+        },
+        {
+            _id: 'test_tab3',
+            content: () => <>test</>,
+            icon: Option,
+            name: 'USMLE Step 1',
+        },
+        {
+            _id: 'test_tab4',
+            content: () => <>test</>,
+            icon: Option,
+            name: 'Test tab4',
+        },
+        {
+            _id: 'test_tab5',
+            content: () => <>test</>,
+            icon: Option,
+            name: 'Test tab5',
+        },
+    ]);
 
     return (
         <Flex
