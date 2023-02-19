@@ -42,7 +42,8 @@ export function useTabs(initial: Tab[]) {
                 pr="1"
                 py="1"
                 transition="all 100ms ease-in-out"
-                _hover={{ bg: isActive ? '' : 'blue.600' }}>
+                _hover={{ bg: isActive ? '' : 'blue.600' }}
+                _active={{ bg: isActive ? '' : 'blue.700' }}>
                 <Icon
                     as={icon}
                     boxSize="3"
@@ -71,7 +72,8 @@ export function useTabs(initial: Tab[]) {
                     }}
                     size="xs"
                     variant="ghost"
-                    _hover={{ bg: isActive ? 'gray.100' : 'blue.700' }}
+                    _hover={{ bg: isActive ? 'gray.200' : 'blue.700' }}
+                    _active={{ bg: isActive ? 'gray.400' : 'blue.800' }}
                 />
             </Flex>
         );
