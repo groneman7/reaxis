@@ -83,7 +83,6 @@ export function useTabs(initial: Tab[]) {
         return (
             <Flex
                 bg="blue.500"
-                borderTopRightRadius="base"
                 // boxShadow={`0px -3px 1px -1px ${theme.colors.blue[600]} inset`}
                 gap="2"
                 pt="2"
