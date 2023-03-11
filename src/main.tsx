@@ -1,50 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ChakraProvider, createMultiStyleConfigHelpers, extendTheme } from '@chakra-ui/react';
+
+import { ConfigProvider, ThemeConfig } from 'antd';
+import 'antd/dist/reset.css';
+
 import App from './App';
 
-import { alertAnatomy } from '@chakra-ui/anatomy';
-const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(
-    alertAnatomy.keys
-);
-const Alert = defineMultiStyleConfig({
-    baseStyle: definePartsStyle({
-        container: {
-            borderRadius: 'base',
-            fontSize: 'sm',
-        },
-    }),
-});
-
-const theme = extendTheme({
+const theme: ThemeConfig = {
+    token: {
+        fontFamily:
+            "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        // controlItemBgActive: '#cf1322',
+    },
     components: {
-        Alert,
-        Button: {
-            variants: {
-                quickAction: {
-                    bg: 'transparent',
-                    color: 'gray.500',
-                    _hover: {
-                        bg: 'gray.200',
-                    },
-                    _active: {
-                        bg: 'gray.400',
-                        color: 'gray.600',
-                    },
-                },
-            },
-        },
+        // Menu: {
+        //     colorItemBg: '#002c8c',
+        //     colorItemText: '#ffffff',
+        //     colorItemTextHover: '#ffffff',
+        //     colorGroupTitle: '#ffffff',
+        //     colorItemTextSelected: '#ffffff',
+        //     colorItemBgHover: 'rgba(255,255, 255, 0.15)',
+        //     colorItemBgSelected: '#1677ff',
+        // },
     },
-    fonts: {
-        body: 'Inter, system-ui, sans-serif',
-        heading: 'Inter, system-ui, sans-serif',
-    },
-});
+};
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <ChakraProvider theme={theme}>
+        <ConfigProvider theme={theme}>
             <App />
-        </ChakraProvider>
+        </ConfigProvider>
     </React.StrictMode>
 );
