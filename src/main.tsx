@@ -10,18 +10,13 @@ const theme: ThemeConfig = {
     token: {
         fontFamily:
             "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        // controlItemBgActive: '#cf1322',
+        fontSize: 16,
     },
     components: {
-        // Menu: {
-        //     colorItemBg: '#002c8c',
-        //     colorItemText: '#ffffff',
-        //     colorItemTextHover: '#ffffff',
-        //     colorGroupTitle: '#ffffff',
-        //     colorItemTextSelected: '#ffffff',
-        //     colorItemBgHover: 'rgba(255,255, 255, 0.15)',
-        //     colorItemBgSelected: '#1677ff',
-        // },
+        Menu: {
+            colorItemTextSelected: '#ffffff',
+            colorItemBgSelected: '#1677ff',
+        },
     },
 };
 
