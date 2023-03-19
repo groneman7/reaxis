@@ -1,34 +1,34 @@
-.side-nav {
+.main-nav {
     background: #0958d9 !important;
 }
 
-.side-nav-menu {
+.main-nav-menu {
     background: #0958d9;
     color: #ffffff;
     font-weight: 500;
-    padding: 4px;
+    padding: 8px;
 }
 
 .ant-menu-item {
     user-select: none;
 }
 
-.side-nav-menu > .ant-menu-item.ant-menu-item-selected {
+.main-nav-menu > .ant-menu-item.ant-menu-item-selected {
     background: white;
     color: #0958d9;
 }
 
-.side-nav-menu > .ant-menu-submenu > .ant-menu-submenu-title:hover {
+.main-nav-menu > .ant-menu-submenu > .ant-menu-submenu-title:hover {
     color: white !important;
     background: none;
 }
 
-.side-nav-menu > .ant-menu-submenu.ant-menu-submenu-active {
+.main-nav-menu > .ant-menu-submenu.ant-menu-submenu-active {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.side-nav-menu > .ant-menu-item:hover,
-.side-nav-menu > .ant-menu-submenu:hover {
+.main-nav-menu > .ant-menu-item:hover,
+.main-nav-menu > .ant-menu-submenu:hover {
     color: #ffffff !important;
     background: rgba(255, 255, 255, 0.3) !important;
 }

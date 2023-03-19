@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
+import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider, ThemeConfig } from 'antd';
-import 'antd/dist/reset.css';
-
 import App from './App';
+import 'antd/dist/reset.css';
 
 const theme: ThemeConfig = {
     token: {
@@ -22,8 +21,10 @@ const theme: ThemeConfig = {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <ConfigProvider theme={theme}>
-            <App />
-        </ConfigProvider>
+        <BrowserRouter>
+            <ConfigProvider theme={theme}>
+                <App />
+            </ConfigProvider>
+        </BrowserRouter>
     </React.StrictMode>
 );
