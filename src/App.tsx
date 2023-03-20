@@ -6,7 +6,7 @@ import { DefaultPage, MainNav, Sidebar } from './components';
 import { Layers } from 'lucide-react';
 import './styles/App.css';
 
-import { BrowseFlashcards, Home } from './pages';
+import { BrowseFlashcards, Flashcards, Home } from './pages';
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -54,6 +54,10 @@ export default function App() {
                                 element={<Home />}
                             />
                             <Route path="flashcards">
+                                <Route
+                                    index
+                                    element={<Flashcards />}
+                                />
                                 <Route
                                     path="browse"
                                     element={<BrowseFlashcards />}
