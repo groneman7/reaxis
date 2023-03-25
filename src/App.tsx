@@ -4,9 +4,9 @@ import { Flex } from '@chakra-ui/layout';
 import { Breadcrumb, Layout, Typography } from 'antd';
 import { DefaultPage, MainNav, Sidebar } from './components';
 import { Layers } from 'lucide-react';
-import './styles/App.css';
+import './styles/common/app.css';
 
-import { BrowseFlashcards, Flashcards, Home } from './pages';
+import { BrowseFlashcards, Flashcards, Home, StudyFlashcards } from './pages';
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -61,6 +61,10 @@ export default function App() {
                                 <Route
                                     path="browse"
                                     element={<BrowseFlashcards />}
+                                />
+                                <Route
+                                    path="study"
+                                    element={<StudyFlashcards />}
                                 />
                             </Route>
                         </Routes>

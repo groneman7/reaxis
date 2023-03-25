@@ -10,7 +10,7 @@ import {
     ListOrdered,
     Stethoscope,
 } from 'lucide-react';
-import './../../styles/MainNav.css';
+import './../../styles/common/mainNav.css';
 
 const { Sider } = Layout;
 const { Title } = Typography;

@@ -1,0 +1,21 @@
+.list-card {
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    flex: 1;
+    padding: 16px;
+    transition: background 120ms ease-in-out;
+    user-select: none;
+}
+
+.list-card:hover {
+    background: #e6f4ff;
+}
+
+.list-card.list-card-selected {
+    background: #bae0ff;
+}
+
+.list-card.list-card-selected:hover {
+    background: #91caff;
+}
