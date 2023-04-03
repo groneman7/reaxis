@@ -47,28 +47,26 @@ export default function App() {
                     </Title>
                 </Flex>
                 <Layout style={{ flex: 1 }}>
-                    <DefaultPage>
-                        <Routes>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={<Home />}
+                        />
+                        <Route path="flashcards">
                             <Route
-                                path="/"
-                                element={<Home />}
+                                index
+                                element={<Flashcards />}
                             />
-                            <Route path="flashcards">
-                                <Route
-                                    index
-                                    element={<Flashcards />}
-                                />
-                                <Route
-                                    path="browse"
-                                    element={<BrowseFlashcards />}
-                                />
-                                <Route
-                                    path="study"
-                                    element={<StudyFlashcards />}
-                                />
-                            </Route>
-                        </Routes>
-                    </DefaultPage>
+                            <Route
+                                path="browse"
+                                element={<BrowseFlashcards />}
+                            />
+                            <Route
+                                path="study"
+                                element={<StudyFlashcards />}
+                            />
+                        </Route>
+                    </Routes>
                     <Sidebar
                         isOpen={sidebarOpen}
                         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
