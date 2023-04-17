@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { Flex, FlexProps } from '@chakra-ui/layout';
+import { Flex } from './';
 import { Card, Button, Dropdown, Checkbox, Typography } from 'antd';
 import type { MenuProps } from 'antd';
 import { MoreHorizontal } from 'lucide-react';
@@ -8,6 +8,7 @@ import '../../styles/common/listCard.css';
 const { Title, Text } = Typography;
 
 type ListCardProps = {
+    children?: ReactNode;
     description?: ReactNode;
     onMenuClick?: MenuProps['onClick'];
     menuItems?: MenuProps['items'];
@@ -24,7 +25,7 @@ export function ListCard({
     selectable,
     subtitle,
     title,
-}: FlexProps & ListCardProps) {
+}: ListCardProps) {
     const [selected, setSelected] = useState(false);
 
     function Main() {
@@ -33,12 +34,11 @@ export function ListCard({
                 className={`list-card ${selected && 'list-card-selected'}`}
                 flex="1">
                 <Flex
-                    direction="column"
+                    column
                     flex="1">
                     <Flex
-                        alignItems=""
                         gap={16}
-                        mb={4}>
+                        style={{ marginBottom: 4 }}>
                         {selectable && (
                             <Checkbox
                                 checked={selected}
@@ -51,19 +51,17 @@ export function ListCard({
                             {title}
                         </Title>
                     </Flex>
-                    <Flex
-                        mb={4}
-                        ml={selectable ? 32 : 0}>
+                    <Flex style={{ marginBottom: 4, marginLeft: selectable ? 32 : 0 }}>
                         <Text
                             strong
                             type="secondary">
                             {subtitle}
                         </Text>
                     </Flex>
-                    <Flex ml={selectable ? 32 : 0}>{children}</Flex>
+                    <Flex style={{ marginLeft: selectable ? 32 : 0 }}>{children}</Flex>
                 </Flex>
                 {menuItems && menuItems.length > 0 && (
-                    <Flex alignItems="center">
+                    <Flex align="center">
                         <Dropdown
                             arrow
                             menu={{ items: menuItems, onClick: onMenuClick }}

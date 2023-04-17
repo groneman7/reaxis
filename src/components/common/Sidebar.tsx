@@ -1,5 +1,5 @@
-import { Flex, Spacer } from '@chakra-ui/layout';
-import { Button, Layout, Menu, MenuProps, Typography, theme } from 'antd';
+import { Button, Layout, Typography } from 'antd';
+import { Flex, Spacer } from './';
 import { ChevronRight } from 'lucide-react';
 
 const { Sider } = Layout;
@@ -11,11 +11,8 @@ type SidebarProps = {
 };
 
 export function Sidebar({ isOpen, onToggleSidebar }: SidebarProps) {
-    const { token } = theme.useToken();
-
     return (
         <Sider
-            className=""
             collapsed={!isOpen}
             collapsedWidth={0}
             collapsible
@@ -47,9 +44,9 @@ export function Sidebar({ isOpen, onToggleSidebar }: SidebarProps) {
                 }}
             />
             <Flex
-                direction="column"
-                h="100%"
-                gap={32}>
+                column
+                gap={32}
+                style={{ height: '100%' }}>
                 <Flex align="center">Sidebar</Flex>
                 <Spacer />
             </Flex>

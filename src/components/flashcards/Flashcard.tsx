@@ -1,7 +1,8 @@
-import { useEffect, useId, useState } from 'react';
-import { Flex } from '@chakra-ui/layout';
-import '../../styles/flashcards/flashcard.css';
+import { useEffect, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import { Button } from 'antd';
+import { Flex } from '../';
+import '../../styles/flashcards/flashcard.css';
 
 type FlashcardProps = {
     card: {
@@ -9,19 +10,19 @@ type FlashcardProps = {
         flipped: boolean;
         front: any[];
         idTested?: number;
-        onFlip: (duration: number) => void;
-        onNext: (confidence: number) => void;
     };
+    onFlip: (duration: number) => void;
+    onNext: (confidence: number) => void;
 };
 
-export function Flashcard({ card }: FlashcardProps) {
-    const { back, flipped, front, idTested, onFlip, onNext } = card;
+export function Flashcard({ card, onFlip, onNext }: FlashcardProps) {
+    const { back, flipped, front, idTested } = card;
     const [startTime, setStartTime] = useState<number | null>(null);
 
     useEffect(() => {
         const start = new Date().getTime();
         setStartTime(start);
-    }, []);
+    }, [card]);
 
     const endDuration = () => {
         const endTime = new Date().getTime();
@@ -31,18 +32,18 @@ export function Flashcard({ card }: FlashcardProps) {
     return (
         <Flex
             className="flashcard"
-            direction="column">
+            column>
             <Flex
                 className="card card-front"
-                direction="column"
+                column
                 gap={32}>
                 <div>
                     {front.map((f) => {
                         if (f.type === 'cloze-blank' && f.id === idTested) {
-                            return f.children.map((c: any) => {
+                            return f.children?.map((c: any) => {
                                 return (
                                     <span
-                                        key={useId()}
+                                        key={uuid()}
                                         className={`${c.format} cloze ${
                                             flipped ? 'cloze-visible' : 'cloze-hidden'
                                         }`}
@@ -52,10 +53,10 @@ export function Flashcard({ card }: FlashcardProps) {
                                 );
                             });
                         } else {
-                            return f.children.map((c: any) => {
+                            return f.children?.map((c: any) => {
                                 return (
                                     <span
-                                        key={useId()}
+                                        key={uuid()}
                                         className={c.format}>
                                         {c.text}
                                     </span>
@@ -66,8 +67,8 @@ export function Flashcard({ card }: FlashcardProps) {
                 </div>
                 {flipped ? (
                     <Flex
-                        justifyContent="space-between"
-                        width="100%">
+                        justify="space-between"
+                        style={{ width: '100%' }}>
                         <Button
                             className="again"
                             onClick={() => onNext(1)}
@@ -102,7 +103,7 @@ export function Flashcard({ card }: FlashcardProps) {
             {back && back.length > 0 && flipped && (
                 <Flex
                     className="card card-back"
-                    direction="column">
+                    column>
                     <div>
                         {back.map((b: any, i: number) => {
                             return (

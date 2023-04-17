@@ -1,0 +1,143 @@
+[
+    {
+        "_id": "01",
+        "back": [
+            { "text": "Cyclophosphamide", "format": "bold" },
+            { "text": " is a " },
+            { "text": "prodrug", "format": "bold" },
+            { "text": " metabolized to its active form by CYP450 enzymes." }
+        ],
+        "front": [
+            {
+                "type": "cloze-blank",
+                "id": 1,
+                "children": [{ "text": "Alkylating agents", "format": "bold" }]
+            },
+            { "type": "text", "children": [{ "text": ", such as " }] },
+            {
+                "type": "cloze-blank",
+                "id": 2,
+                "children": [{ "text": "cyclophosphamide", "format": "bold" }]
+            },
+            {
+                "type": "text",
+                "children": [
+                    { "text": ", transfer " },
+                    { "text": "alkyl groups", "format": "bold" },
+                    { "text": " to DNA, resulting in " },
+                    { "text": "cell death", "format": "bold" },
+                    { "text": ". This drug also provides " }
+                ]
+            },
+            { "type": "cloze-blank", "id": 2, "children": [{ "text": "immune suppression" }] },
+            { "type": "text", "children": [{ "text": ", which can be utilized to " }] },
+            {
+                "type": "cloze-blank",
+                "id": 1,
+                "children": [{ "text": "prevent post-transplant organ rejection" }]
+            },
+            { "type": "text", "children": [{ "text": "." }] }
+        ],
+        "idTested": 1
+    },
+    {
+        "_id": "02",
+        "back": [{ "text": "Cystinuria is the most common disorder of amino acid transport." }],
+        "front": [
+            {
+                "type": "cloze-blank",
+                "id": 1,
+                "children": [{ "text": "Cystinuria", "format": "bold" }]
+            },
+            {
+                "type": "text",
+                "children": [{ "text": " is a type of type of kidney stone in which " }]
+            },
+            {
+                "type": "cloze-blank",
+                "id": 2,
+                "children": [{ "text": "cyst" }, { "text": "ine", "format": "bold" }]
+            },
+            {
+                "type": "text",
+                "children": [
+                    {
+                        "text": " precipitates in the kidneys and pass into the ureter. It is caused by a defect in "
+                    }
+                ]
+            },
+            {
+                "type": "cloze-blank",
+                "id": 2,
+                "children": [{ "text": "cyst" }, { "text": "ine", "format": "bold" }]
+            },
+            { "type": "text", "children": [{ "text": " " }] },
+            {
+                "type": "cloze-blank",
+                "id": 3,
+                "children": [{ "text": "reabsorption" }]
+            },
+            { "type": "text", "children": [{ "text": " from the proximal tubule." }] }
+        ],
+        "idTested": 3
+    },
+    {
+        "_id": "03",
+        "front": [
+            { "type": "text", "children": [{ "text": "Antibiotics", "format": "bold" }] },
+            { "type": "text", "children": [{ "text": " such as " }] },
+            {
+                "type": "cloze-blank",
+                "id": 2,
+                "children": [{ "text": "doxorubicin", "format": "bold" }]
+            },
+            { "type": "text", "children": [{ "text": " can " }] },
+            {
+                "type": "cloze-blank",
+                "id": 2,
+                "children": [{ "text": "inhibit topoisomerase II", "format": "bold" }]
+            },
+            {
+                "type": "text",
+                "children": [
+                    { "text": " and intercalate DNA, bind cell membranes, and generate " }
+                ]
+            },
+            {
+                "type": "cloze-blank",
+                "id": 1,
+                "children": [
+                    { "text": "free radicals", "format": "bold" },
+                    { "text": " (e.g., ROS)" }
+                ]
+            },
+            { "type": "text", "children": [{ "text": ". " }] },
+            {
+                "type": "cloze-blank",
+                "id": 2,
+                "children": [{ "text": "Cardiotoxicity", "format": "bold" }]
+            },
+            {
+                "type": "text",
+                "children": [
+                    {
+                        "text": " may result from the latter effect but can be treated via "
+                    }
+                ]
+            },
+            {
+                "type": "cloze-blank",
+                "id": 3,
+                "children": [{ "text": "iron chelation therapy" }]
+            },
+            { "type": "text", "children": [{ "text": " (i.e., " }] },
+            {
+                "type": "cloze-blank",
+                "id": 4,
+                "children": [{ "text": "dexrazoxane", "format": "bold" }]
+            },
+            { "type": "text", "children": [{ "text": "." }] }
+        ],
+        "idTested": 2
+    }
+]

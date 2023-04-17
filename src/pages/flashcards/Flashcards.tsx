@@ -1,13 +1,10 @@
-import { Flex } from '@chakra-ui/layout';
 import { Button } from 'antd';
 import { DefaultPage } from '../../components';
 
 export function Flashcards() {
     return (
         <DefaultPage>
-            <Flex
-                direction="column"
-                gap={16}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <Button
                     href="/flashcards/study"
                     type="link">
@@ -25,7 +22,7 @@ export function Flashcards() {
                     type="link">
                     Browse decks
                 </Button>
-            </Flex>
+            </div>
         </DefaultPage>
     );
 }

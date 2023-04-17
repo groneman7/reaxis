@@ -1,14 +1,10 @@
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Flex } from '@chakra-ui/layout';
-import { Breadcrumb, Layout, Typography } from 'antd';
-import { DefaultPage, MainNav, Sidebar } from './components';
-import { Layers } from 'lucide-react';
+import { Layout } from 'antd';
+import { Header, MainNav, Sidebar } from './components';
+import { BrowseFlashcards, Flashcards, Home, StudyFlashcards } from './pages';
 import './styles/common/app.css';
 
-import { BrowseFlashcards, Flashcards, Home, StudyFlashcards } from './pages';
-
-const { Title } = Typography;
 const { Content } = Layout;
 
 export default function App() {
@@ -18,34 +14,7 @@ export default function App() {
         <Layout style={{ minHeight: '100vh' }}>
             <MainNav />
             <Content style={{ background: 'white', display: 'flex', flexDirection: 'column' }}>
-                <Flex
-                    display="flex"
-                    flexDirection="column"
-                    gap={4}
-                    h={96}
-                    justifyContent="center"
-                    px={32}>
-                    <Breadcrumb
-                        items={[
-                            {
-                                title: (
-                                    <Flex
-                                        align="center"
-                                        gap={4}>
-                                        <Layers size={16} />
-                                        <span>Flashcards</span>
-                                    </Flex>
-                                ),
-                                href: '/flashcards',
-                            },
-                        ]}
-                    />
-                    <Title
-                        level={2}
-                        style={{ margin: 0 }}>
-                        Hello
-                    </Title>
-                </Flex>
+                <Header />
                 <Layout style={{ flex: 1 }}>
                     <Routes>
                         <Route

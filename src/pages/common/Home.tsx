@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/layout';
+import { Flex } from '../../components';
 
 export function Home() {
     return <Flex>Home</Flex>;

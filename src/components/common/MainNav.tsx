@@ -1,7 +1,7 @@
 import { useMachine } from '@xstate/react';
-import { layoutMachine } from '../../xstate';
+import { layoutMachine } from '../../state';
 import { Button, Layout, Menu, MenuProps, Typography, theme } from 'antd';
-import { Flex, Spacer } from '@chakra-ui/layout';
+import { Flex, Spacer } from './';
 import {
     ChevronLeft,
     GitFork,
@@ -10,7 +10,6 @@ import {
     ListOrdered,
     Stethoscope,
 } from 'lucide-react';
-import './../../styles/common/mainNav.css';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -54,23 +53,22 @@ export function MainNav() {
 
     return (
         <Sider
-            className="main-nav"
             collapsed={isCollapsed}
             collapsedWidth={72}
             collapsible
+            style={{ borderRight: `1px solid #d9d9d9` }}
+            theme="light"
             trigger={null}
             width={256}>
             <Flex
-                direction="column"
-                h="100%"
+                column
+                style={{ height: '100%' }}
                 gap={16}>
                 <Flex
                     align="center"
                     gap={12}
-                    h={72}
                     justify="center"
-                    overflowX="hidden"
-                    userSelect="none">
+                    style={{ height: 72, overflowX: 'hidden', userSelect: 'none' }}>
                     <Button
                         icon={
                             <ChevronLeft
@@ -100,14 +98,14 @@ export function MainNav() {
                         }}
                     />
                     <HeartPulse
-                        color="#ffffff"
+                        color={token.colorPrimary}
                         size={28}
                     />
                     <Title
                         hidden={isCollapsed}
                         level={3}
                         style={{
-                            color: '#ffffff',
+                            color: token.colorPrimary,
                             margin: 0,
                             whiteSpace: 'nowrap',
                         }}>
@@ -115,14 +113,12 @@ export function MainNav() {
                     </Title>
                 </Flex>
                 <Menu
-                    className="main-nav-menu"
                     items={items}
                     mode="inline"
                     selectable={false}
                 />
                 <Spacer />
                 <Menu
-                    className="main-nav-menu"
                     items={[
                         {
                             label: 'Evan Groneman',

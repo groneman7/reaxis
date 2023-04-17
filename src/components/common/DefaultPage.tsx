@@ -1,14 +1,19 @@
-import { Flex, FlexProps } from '@chakra-ui/layout';
+import { ReactNode } from 'react';
 import { Layout } from 'antd';
+import { Flex } from './';
 
 const { Content } = Layout;
 
-export function DefaultPage(props: FlexProps) {
+type PageProps = {
+    children?: ReactNode;
+};
+
+export function DefaultPage(props: PageProps) {
     const { children } = props;
     return (
         <Content style={{ display: 'flex' }}>
             <Flex
-                bg="white"
+                style={{ background: 'white' }}
                 flex="1"
                 {...props}>
                 {children}
