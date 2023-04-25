@@ -13,7 +13,7 @@ export function DefaultPage(props: PageProps) {
     return (
         <Content style={{ display: 'flex' }}>
             <Flex
-                style={{ background: 'white' }}
+                style={{ background: 'white', overflow: 'hidden' }}
                 flex="1"
                 {...props}>
                 {children}

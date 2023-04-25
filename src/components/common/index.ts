@@ -1,3 +1,4 @@
+export * from './Breadcrumbs';
 export * from './DefaultPage';
 export * from './Flex';
 export * from './Header';

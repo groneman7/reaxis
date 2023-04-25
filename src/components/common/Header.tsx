@@ -1,8 +1,8 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Breadcrumb, Typography } from 'antd';
-import { Flex } from './';
+import { /* Breadcrumb, */ Typography } from 'antd';
 import { AiOutlineHome } from 'react-icons/ai';
+import { Breadcrumbs, Flex } from './';
 
 const { Title } = Typography;
 
@@ -16,15 +16,9 @@ type BreadcrumbItem = {
 const itemStyles: CSSProperties = {
     display: 'flex',
     padding: '2px 4px 0 4px',
-    // transition: 'all 200ms ease-in-out',
 };
 
 export function Header() {
-    const testBreadcrumbs: BreadcrumbItem[] = [
-        { key: 'home', icon: <AiOutlineHome />, title: 'Home', url: '/' },
-        { key: 'flashcards', title: 'Flashcards', url: '/flashcards' },
-    ];
-
     const renderItems = (breadcrumbs: BreadcrumbItem[]) => {
         return breadcrumbs.map((item: BreadcrumbItem) => {
             return {
@@ -61,10 +55,11 @@ export function Header() {
                 padding: '0 32px 0 32px',
             }}>
             <Flex column>
-                <Breadcrumb
+                {/* <Breadcrumb
                     items={renderItems(testBreadcrumbs)}
                     style={{ fontSize: 14 }}
-                />
+                /> */}
+                <Breadcrumbs />
                 <Title
                     level={1}
                     style={{ fontSize: 24, margin: 0 }}>
