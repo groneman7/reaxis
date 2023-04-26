@@ -1,8 +1,8 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Breadcrumb } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
-import { Layers } from 'lucide-react';
 import { AiOutlineHome } from 'react-icons/ai';
+import { RxLayers } from 'react-icons/rx';
 
 type BreadcrumbItem = {
     key: string;
@@ -19,7 +19,6 @@ const titleStyles: CSSProperties = {
     alignItems: 'center',
     display: 'flex',
     gap: 2,
-    // padding: '2px 4px 0 4px',
 };
 
 function breadcrumbMap(snippet: string, url: string): { title: ReactNode; icon?: ReactNode } {
@@ -30,7 +29,7 @@ function breadcrumbMap(snippet: string, url: string): { title: ReactNode; icon?:
                     <Link
                         to={url}
                         style={titleStyles}>
-                        <Layers style={iconStyles} />
+                        <RxLayers style={iconStyles} />
                         Flashcards
                     </Link>
                 ),
@@ -51,12 +50,14 @@ function breadcrumbMap(snippet: string, url: string): { title: ReactNode; icon?:
 
 export function Breadcrumbs() {
     const location = useLocation();
-    const pathSnippets = location.pathname.split('/');
-    console.log(pathSnippets);
+    let pathSnippets = location.pathname.split('/');
+    if (pathSnippets.length > 0 && pathSnippets[pathSnippets.length - 1] === '') {
+        pathSnippets = pathSnippets.filter((snippet, i) => i > 0 && snippet !== '');
+    }
 
     const renderCrumbs = (list: string[]): BreadcrumbItem[] => {
         return list.map((snippet, i) => {
-            const url = `/${list.slice(0, i + 1).join('/')}`;
+            const url = snippet === '' ? '' : `/${list.slice(0, i + 1).join('/')}`;
             return { key: snippet, url, ...breadcrumbMap(snippet, url) };
         });
     };

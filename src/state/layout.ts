@@ -1,6 +1,7 @@
 import { createMachine } from 'xstate';
 
 export const layoutMachine = createMachine({
+    predictableActionArguments: true,
     type: 'parallel',
     states: {
         mainNav: {

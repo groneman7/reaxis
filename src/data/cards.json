@@ -136,7 +136,7 @@
                 "id": 4,
                 "children": [{ "text": "dexrazoxane", "format": "bold" }]
             },
-            { "type": "text", "children": [{ "text": "." }] }
+            { "type": "text", "children": [{ "text": ")." }] }
         ],
         "idTested": 2
     }

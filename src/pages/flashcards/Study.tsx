@@ -38,9 +38,8 @@ export function StudyFlashcards() {
         if (current.matches('study.ready')) {
             return (
                 <Flex
-                    justify="flex-start"
                     gap={256}
-                    style={{ padding: 32 }}>
+                    style={{ justifySelf: 'flex-start', padding: 32 }}>
                     <Descriptions
                         bordered
                         column={1}
@@ -107,7 +106,7 @@ export function StudyFlashcards() {
     }
 
     return (
-        <DefaultPage>
+        <DefaultPage style={{ justifyContent: 'space-around' }}>
             <RenderPage />
         </DefaultPage>
     );

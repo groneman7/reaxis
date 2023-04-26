@@ -1,6 +1,7 @@
 import { createMachine } from 'xstate';
 
 export const flashcardMachine = createMachine({
+    predictableActionArguments: true,
     type: 'parallel',
     states: {
         list: {
