@@ -57,7 +57,7 @@ export function Breadcrumbs() {
 
     const renderCrumbs = (list: string[]): BreadcrumbItem[] => {
         return list.map((snippet, i) => {
-            const url = snippet === '' ? '' : `/${list.slice(0, i + 1).join('/')}`;
+            const url = snippet === '' ? '' : `/${list.slice(1, i + 1).join('/')}`;
             return { key: snippet, url, ...breadcrumbMap(snippet, url) };
         });
     };

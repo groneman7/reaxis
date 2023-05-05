@@ -10,7 +10,6 @@
     },
     "dependencies": {
         "@ant-design/colors": "^7.0.0",
-        "@esbuild/win32-x64": "^0.17.18",
         "@types/uuid": "^9.0.1",
         "@xstate/react": "^3.2.1",
         "antd": "^5.3.0",
