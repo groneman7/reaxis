@@ -1,18 +1,26 @@
 import { useEffect } from 'react';
+import { Dispatch, RootState, useDispatch, useSelector } from '../../state';
 import { Button, Card, Divider, Progress, Tooltip, Typography } from 'antd';
-import { useMachine } from '@xstate/react';
-import { decksMachine } from '../../state';
 import { DefaultPage, Flex, Spacer } from '../../components';
 
 const { Text } = Typography;
 
 export function Flashcards() {
-    const [current, send] = useMachine(decksMachine);
-    const decks = current.context.decksList;
+    const dispatch = useDispatch<Dispatch>();
+    const decksList = useSelector(({ flashcards }: RootState) => flashcards.decks.list);
 
     useEffect(() => {
-        send('GET_DECKS');
+        dispatch.quickActions.SET(quickActions);
+        dispatch.flashcards.getDecksList();
     }, []);
+
+    const quickActions = [
+        <div
+            key="11"
+            onClick={() => alert('Ayyyy')}>
+            Hello world!!!
+        </div>,
+    ];
 
     return (
         <DefaultPage>
@@ -110,8 +118,8 @@ export function Flashcards() {
                 <Flex
                     gap={32}
                     style={{ height: 296, overflow: 'auto', padding: 16 }}>
-                    {decks &&
-                        decks.map((deck) => {
+                    {decksList &&
+                        decksList.map((deck) => {
                             return (
                                 <Tooltip
                                     key={deck._id}

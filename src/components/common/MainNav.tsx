@@ -1,5 +1,4 @@
-import { useMachine } from '@xstate/react';
-import { layoutMachine } from '../../state';
+import { Dispatch, RootState, useDispatch, useSelector } from '../../state';
 import { Button, Layout, Menu, MenuProps, Typography, theme } from 'antd';
 import { Flex, Spacer } from './';
 import {
@@ -48,15 +47,22 @@ const items: MenuItem[] = [
 
 export function MainNav() {
     const { token } = useToken();
-    const [state, send] = useMachine(layoutMachine);
-    const isCollapsed = state.matches({ mainNav: 'collapsed' });
+    const dispatch = useDispatch<Dispatch>();
+
+    const isOpen = useSelector((state: RootState) => state.layout.mainNavOpen);
 
     return (
         <Sider
-            collapsed={isCollapsed}
+            collapsed={!isOpen}
             collapsedWidth={72}
             collapsible
-            style={{ borderRight: `1px solid #d9d9d9` }}
+            style={{
+                borderRight: `1px solid #d9d9d9`,
+                position: 'sticky',
+                height: '100svh',
+                top: 0,
+                left: 0,
+            }}
             theme="light"
             trigger={null}
             width={256}>
@@ -75,15 +81,13 @@ export function MainNav() {
                                 color={token.colorTextSecondary}
                                 strokeWidth={2.5}
                                 style={{
-                                    marginLeft: isCollapsed ? '' : '-2px',
-                                    transform: isCollapsed ? 'rotate(180deg)' : '',
+                                    marginLeft: isOpen ? '-2px' : '',
+                                    transform: isOpen ? '' : 'rotate(180deg)',
                                     transition: 'transform 120ms ease-in-out',
                                 }}
                             />
                         }
-                        onClick={() =>
-                            isCollapsed ? send('EXPAND_MAIN_NAV') : send('COLLAPSE_MAIN_NAV')
-                        }
+                        onClick={() => dispatch.layout.MAIN_NAV_TOGGLE()}
                         shape="circle"
                         type="default"
                         style={{
@@ -102,7 +106,7 @@ export function MainNav() {
                         size={28}
                     />
                     <Title
-                        hidden={isCollapsed}
+                        hidden={!isOpen}
                         level={3}
                         style={{
                             color: token.colorPrimary,

@@ -18,7 +18,7 @@ export function Sidebar({ isOpen, onToggleSidebar }: SidebarProps) {
             collapsible
             theme="light"
             trigger={null}
-            width="33%">
+            style={{ height: '100svh', left: 0, maxWidth: '25%', position: 'sticky', top: 0 }}>
             <Button
                 icon={
                     <ChevronRight

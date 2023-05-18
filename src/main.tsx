@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider, connect } from 'react-redux';
+import { store } from './state';
 import { ConfigProvider, ThemeConfig } from 'antd';
 import App from './App';
 import 'antd/dist/reset.css';
@@ -18,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
         <BrowserRouter>
             <ConfigProvider theme={theme}>
-                <App />
+                <Provider store={store}>
+                    <App />
+                </Provider>
             </ConfigProvider>
         </BrowserRouter>
     </React.StrictMode>

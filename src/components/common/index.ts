@@ -4,5 +4,6 @@ export * from './Flex';
 export * from './Header';
 export * from './ListCard';
 export * from './MainNav';
+export * from './QuickActions';
 export * from './Sidebar';
 export * from './Spacer';
