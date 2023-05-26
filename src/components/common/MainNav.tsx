@@ -14,36 +14,19 @@ const { Sider } = Layout;
 const { Title } = Typography;
 const { useToken } = theme;
 
-const defaultIconProps = { size: 20, strokeWidth: 2, style: { marginRight: 4 } };
-
-type MenuItem = Required<MenuProps>['items'][number];
-const items: MenuItem[] = [
-    {
-        label: 'Flashcards',
-        key: '1',
-        icon: <Layers {...defaultIconProps} />,
+const defaultProps = {
+    button: {
+        style: {
+            alignItems: 'center',
+            display: 'flex',
+        },
     },
-    {
-        label: 'Questions',
-        key: '2',
-        icon: <ListOrdered {...defaultIconProps} />,
+    icon: {
+        size: 16,
+        strokeWidth: 2,
+        style: { marginRight: 8 },
     },
-    {
-        label: 'Diagrams',
-        key: '3',
-        icon: (
-            <GitFork
-                {...defaultIconProps}
-                style={{ transform: 'rotate(180deg)' }}
-            />
-        ),
-    },
-    {
-        label: 'Simulations',
-        key: '4',
-        icon: <Stethoscope {...defaultIconProps} />,
-    },
-];
+};
 
 export function MainNav() {
     const { token } = useToken();
@@ -116,11 +99,37 @@ export function MainNav() {
                         Reaxis
                     </Title>
                 </Flex>
-                <Menu
-                    items={items}
-                    mode="inline"
-                    selectable={false}
-                />
+                <Flex
+                    column
+                    gap={12}
+                    style={{ padding: 8 }}>
+                    <Button
+                        href="/flashcards"
+                        icon={<Layers {...defaultProps['icon']} />}
+                        {...defaultProps['button']}>
+                        Flashcards
+                    </Button>
+                    <Button
+                        icon={<ListOrdered {...defaultProps['icon']} />}
+                        {...defaultProps['button']}>
+                        Questions
+                    </Button>
+                    <Button
+                        icon={
+                            <GitFork
+                                {...defaultProps['icon']}
+                                style={{ transform: 'rotate(180deg)', marginRight: 8 }}
+                            />
+                        }
+                        {...defaultProps['button']}>
+                        Diagrams
+                    </Button>
+                    <Button
+                        icon={<Stethoscope {...defaultProps['icon']} />}
+                        {...defaultProps['button']}>
+                        Simulations
+                    </Button>
+                </Flex>
                 <Spacer />
                 <Menu
                     items={[

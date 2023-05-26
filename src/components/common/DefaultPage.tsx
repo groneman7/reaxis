@@ -14,8 +14,15 @@ export function DefaultPage(props: PageProps) {
     return (
         <Content style={{ display: 'flex' }}>
             <Flex
-                style={{ background: 'white', overflow: 'hidden', ...style }}
-                flex="1">
+                column
+                flex="1"
+                gap={16}
+                style={{
+                    background: 'white',
+                    overflow: 'hidden',
+                    padding: '32px 64px',
+                    ...style,
+                }}>
                 {children}
             </Flex>
         </Content>

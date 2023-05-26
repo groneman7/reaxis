@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { RootState, useSelector } from './state';
 import { Layout } from 'antd';
 import { Header, MainNav, QuickActions, Sidebar } from './components';
-import { BrowseFlashcards, Flashcards, Home, StudyFlashcards } from './pages';
+import { BrowseFlashcards, Flashcards, Home, NewDeck, StudyFlashcards } from './pages';
 import './styles/common/app.css';
 
 const { Content } = Layout;
@@ -27,6 +27,12 @@ export default function App() {
                                 index
                                 element={<Flashcards />}
                             />
+                            <Route path="decks">
+                                <Route
+                                    path="new"
+                                    element={<NewDeck />}
+                                />
+                            </Route>
                             <Route
                                 path="browse"
                                 element={<BrowseFlashcards />}
