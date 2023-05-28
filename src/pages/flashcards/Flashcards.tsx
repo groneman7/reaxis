@@ -12,6 +12,7 @@ export function Flashcards() {
     const decksList = useSelector(({ flashcards }: RootState) => flashcards.decks.list);
 
     useEffect(() => {
+        dispatch.layout.HEADER_EDIT('Flashcards');
         dispatch.quickActions.SET(quickActions);
         dispatch.flashcards.getDecksList();
     }, []);

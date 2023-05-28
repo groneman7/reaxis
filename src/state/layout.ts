@@ -12,6 +12,9 @@ export const layout = createModel<RootModel>()({
         quickActions: [],
     } as LayoutState,
     reducers: {
+        HEADER_EDIT(state, payload) {
+            state.header = payload;
+        },
         MAIN_NAV_TOGGLE(state) {
             state.mainNavOpen = !state.mainNavOpen;
         },
