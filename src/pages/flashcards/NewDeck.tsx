@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Dispatch, useDispatch } from '../../state';
 import { Button, Divider, Form, Input, Segmented, Select, Typography } from 'antd';
-import { DefaultPage, Flex } from '../../components';
+import { DefaultPage, Editor, Flex } from '../../components';
 import { FiMinus } from 'react-icons/fi';
 
 const { Title } = Typography;
@@ -103,6 +103,38 @@ export function NewDeck() {
                 )}
 
                 <Divider orientation="left">Notes</Divider>
+                <Form.List name="notes">
+                    {(fields, { add, remove }) => (
+                        <>
+                            {fields.map(({ key, name, ...restField }) => (
+                                <Flex
+                                    align="center"
+                                    gap={12}
+                                    key={key}>
+                                    <Form.Item
+                                        name={[name, 'front']}
+                                        style={{
+                                            flex: 1,
+                                        }}
+                                        {...restField}>
+                                        <Editor />
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button
+                                            onClick={() => remove(name)}
+                                            shape="circle"
+                                            size="small">
+                                            <FiMinus style={{ marginTop: 4 }} />
+                                        </Button>
+                                    </Form.Item>
+                                </Flex>
+                            ))}
+                            <Form.Item>
+                                <Button onClick={() => add()}>Add New Note</Button>
+                            </Form.Item>
+                        </>
+                    )}
+                </Form.List>
                 <Flex gap={12}>
                     <Form.Item style={{ flex: 1 }}>
                         <Button block>Save Draft</Button>
