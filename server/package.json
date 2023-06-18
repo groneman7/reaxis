@@ -1,0 +1,29 @@
+{
+    "name": "reaxisapi",
+    "version": "0.1.0",
+    "description": "Backend API for Reaxis.",
+    "main": "server.ts",
+    "scripts": {
+        "node-server": "node server.ts",
+        "start-server": "nodemon server.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/groneman7/reaxisAPI.git"
+    },
+    "author": "Evan Groneman",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/groneman7/reaxisAPI/issues"
+    },
+    "homepage": "https://github.com/groneman7/reaxisAPI#readme",
+    "dependencies": {
+        "@types/express": "^4.17.15",
+        "@types/mongoose": "^5.11.97",
+        "express": "^4.18.2",
+        "mongoose": "^6.10.3"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.21"
+    }
+}
