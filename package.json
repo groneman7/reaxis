@@ -1,9 +1,11 @@
 {
     "name": "reaxis",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
+    "version": "1.0.0",
+    "description": "",
     "scripts": {
+<<<<<<< HEAD
+        "start": "concurrently --kill-others \"npm --prefix ./server run start-server\" \"npm --prefix ./client run dev\""
+=======
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview"
@@ -30,12 +32,11 @@
         "react-redux": "^8.0.5",
         "react-router-dom": "^6.9.0",
         "uuid": "^9.0.0"
+>>>>>>> antd
     },
+    "author": "",
+    "license": "ISC",
     "devDependencies": {
-        "@types/react": "^18.0.27",
-        "@types/react-dom": "^18.0.10",
-        "@vitejs/plugin-react": "^3.1.0",
-        "typescript": "^5.0.4",
-        "vite": "^4.1.0"
+        "concurrently": "^8.2.0"
     }
 }
