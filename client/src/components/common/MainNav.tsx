@@ -9,6 +9,7 @@ import {
     ListOrdered,
     Stethoscope,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -84,52 +85,50 @@ export function MainNav() {
                             transform: 'translate(50%)',
                         }}
                     />
-                    <HeartPulse
-                        color={token.colorPrimary}
-                        size={28}
-                    />
-                    <Title
-                        hidden={!isOpen}
-                        level={3}
+                    <Link
+                        to="/"
                         style={{
-                            color: token.colorPrimary,
-                            margin: 0,
-                            whiteSpace: 'nowrap',
+                            alignItems: 'center',
+                            display: 'flex',
+                            gap: 12,
+                            justifyContent: 'center',
                         }}>
-                        Reaxis
-                    </Title>
+                        <HeartPulse
+                            color={token.colorPrimary}
+                            size={28}
+                        />
+                        <Title
+                            hidden={!isOpen}
+                            level={3}
+                            style={{
+                                color: token.colorPrimary,
+                                margin: 0,
+                                whiteSpace: 'nowrap',
+                            }}>
+                            Reaxis
+                        </Title>
+                    </Link>
                 </Flex>
-                <Flex
-                    column
-                    gap={12}
-                    style={{ padding: 8 }}>
-                    <Button
-                        href="/flashcards"
-                        icon={<Layers {...defaultProps['icon']} />}
-                        {...defaultProps['button']}>
-                        Flashcards
-                    </Button>
-                    <Button
-                        icon={<ListOrdered {...defaultProps['icon']} />}
-                        {...defaultProps['button']}>
-                        Questions
-                    </Button>
-                    <Button
+                <Menu>
+                    <Menu.Item icon={<Layers {...defaultProps['icon']} />}>
+                        <Link to="/flashcards">Flashcards</Link>
+                    </Menu.Item>
+                    <Menu.Item icon={<ListOrdered {...defaultProps['icon']} />}>
+                        <Link to="/questions">Questions</Link>
+                    </Menu.Item>
+                    <Menu.Item
                         icon={
                             <GitFork
                                 {...defaultProps['icon']}
-                                style={{ transform: 'rotate(180deg)', marginRight: 8 }}
+                                style={{ marginRight: 8, transform: 'rotate(90deg)' }}
                             />
-                        }
-                        {...defaultProps['button']}>
-                        Diagrams
-                    </Button>
-                    <Button
-                        icon={<Stethoscope {...defaultProps['icon']} />}
-                        {...defaultProps['button']}>
-                        Simulations
-                    </Button>
-                </Flex>
+                        }>
+                        <Link to="/diagrams">Diagrams</Link>
+                    </Menu.Item>
+                    <Menu.Item icon={<Stethoscope {...defaultProps['icon']} />}>
+                        <Link to="/simulations">Simulations</Link>
+                    </Menu.Item>
+                </Menu>
                 <Spacer />
                 <Menu
                     items={[
@@ -154,3 +153,35 @@ export function MainNav() {
         </Sider>
     );
 }
+
+<Flex
+    column
+    gap={12}
+    style={{ padding: 8 }}>
+    <Button
+        href="/flashcards"
+        icon={<Layers {...defaultProps['icon']} />}
+        {...defaultProps['button']}>
+        Flashcards
+    </Button>
+    <Button
+        icon={<ListOrdered {...defaultProps['icon']} />}
+        {...defaultProps['button']}>
+        Questions
+    </Button>
+    <Button
+        icon={
+            <GitFork
+                {...defaultProps['icon']}
+                style={{ transform: 'rotate(180deg)', marginRight: 8 }}
+            />
+        }
+        {...defaultProps['button']}>
+        Diagrams
+    </Button>
+    <Button
+        icon={<Stethoscope {...defaultProps['icon']} />}
+        {...defaultProps['button']}>
+        Simulations
+    </Button>
+</Flex>;

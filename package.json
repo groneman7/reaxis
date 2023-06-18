@@ -3,7 +3,36 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
+<<<<<<< HEAD
         "start": "concurrently --kill-others \"npm --prefix ./server run start-server\" \"npm --prefix ./client run dev\""
+=======
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@ant-design/colors": "^7.0.0",
+        "@lexical/react": "^0.11.1",
+        "@rematch/core": "^2.2.0",
+        "@rematch/immer": "^2.1.3",
+        "@rematch/loading": "^2.1.2",
+        "@rematch/persist": "^2.1.2",
+        "@rematch/select": "^3.1.2",
+        "@types/uuid": "^9.0.1",
+        "antd": "^5.3.0",
+        "axios": "^1.3.6",
+        "framer-motion": "^9.0.1",
+        "html-react-parser": "^3.0.15",
+        "immer": "^9.0.21",
+        "lexical": "^0.11.1",
+        "lucide-react": "^0.109.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-icons": "^4.8.0",
+        "react-redux": "^8.0.5",
+        "react-router-dom": "^6.9.0",
+        "uuid": "^9.0.0"
+>>>>>>> antd
     },
     "author": "",
     "license": "ISC",

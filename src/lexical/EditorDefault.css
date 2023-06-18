@@ -1,0 +1,82 @@
+.editor-container {
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 200ms ease-in-out;
+}
+
+.editor-container:hover {
+    border-color: #4096ff;
+}
+
+.editor-container:focus-within {
+    border-color: #4096ff;
+    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+}
+
+.editor-content {
+    padding: 1.5rem;
+    max-height: 500px;
+    outline: 0;
+    overflow: auto;
+}
+
+.editor-content > :first-child {
+    margin-top: 0;
+}
+
+.editor-content > :last-child {
+    margin-bottom: 0;
+}
+
+.editor-text-bold {
+    font-weight: 700;
+}
+
+.editor-text-italic {
+    font-style: italic;
+}
+
+.editor-text-underline {
+    text-decoration: underline 1px;
+}
+
+.editor-text-strikethrough {
+    text-decoration: line-through;
+}
+
+.editor-paragraph {
+    color: #434343;
+    line-height: 1.25rem;
+    margin: 0.75rem 0 0 0;
+}
+
+.editor-heading-h4 {
+    color: #1f1f1f;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+
+.editor-heading-h5 {
+    color: #1f1f1f;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 1.2rem 0 0 0;
+}
+
+.editor-list-ul,
+.editor-list-ol {
+    list-style-position: inside;
+    margin: 0.5rem 0 0 0.5rem;
+    padding-left: 0rem;
+}
+
+.editor-listitem {
+    margin: 0 0 0.4rem 0;
+    padding-left: 0.5rem;
+}
+
+.editor-listitem > * {
+    padding-left: 0.25rem;
+}
