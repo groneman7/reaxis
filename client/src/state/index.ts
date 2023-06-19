@@ -6,17 +6,17 @@ import persistPlugin from '@rematch/persist';
 import selectPlugin from '@rematch/select';
 import storage from 'redux-persist/lib/storage';
 
+import { DEV_AUTH } from './DEVauth';
 import { flashcards } from './flashcards';
 import { layout } from './layout';
-import { quickActions } from './quickActions';
 
 export interface RootModel extends Models<RootModel> {
+    DEV_AUTH: typeof DEV_AUTH;
     flashcards: typeof flashcards;
     layout: typeof layout;
-    quickActions: typeof quickActions;
 }
 
-export const models: RootModel = { flashcards, layout, quickActions };
+export const models: RootModel = { DEV_AUTH, flashcards, layout };
 
 const persistConfig = {
     key: 'reaxis-persistence',

@@ -15,7 +15,7 @@ export default function App() {
             <MainNav />
             <Content style={{ background: 'white', display: 'flex', flexDirection: 'column' }}>
                 <Header />
-                <QuickActions />
+                {/* <QuickActions /> */}
                 <Layout style={{ flex: 1 }}>
                     <Routes>
                         <Route

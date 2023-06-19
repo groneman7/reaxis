@@ -33,10 +33,6 @@
     animation: flipdown 120ms ease-in-out;
 }
 
-.bold {
-    font-weight: 500;
-}
-
 .cloze {
     border-radius: 6px;
     color: #2f54eb;

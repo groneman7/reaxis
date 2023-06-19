@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from 'react';
-type FlexProps = {
+export type FlexProps = {
     align?: string;
     children?: ReactNode;
     className?: string;

@@ -2,10 +2,10 @@ import axios, { AxiosError } from 'axios';
 import { RootModel, createModel } from '.';
 
 type FlashcardsState = {
-    cards: {
+    decks: {
         list: any[];
     };
-    decks: {
+    notes: {
         list: any[];
     };
     study: {
@@ -15,22 +15,33 @@ type FlashcardsState = {
 
 export const flashcards = createModel<RootModel>()({
     state: {
-        cards: {
+        decks: {
             list: [],
         },
-        decks: {
+        notes: {
             list: [],
         },
         study: {
             status: 'ready',
         },
-    } as FlashcardsState, //
+    } as FlashcardsState,
     reducers: {
-        CARDS_LOAD({ cards }, payload) {
-            cards.list = payload;
+        DECKS_CLEAR({ decks }) {
+            decks.list = [];
         },
         DECKS_LOAD({ decks }, payload: any[]) {
             decks.list = payload;
+        },
+        NOTES_ADD({ notes }, payload: any[]) {
+            // Exclude duplicates
+            // for (let i = 0; i < payload.length; i++) {
+            // }
+        },
+        NOTES_CLEAR({ notes }) {
+            notes.list = [];
+        },
+        NOTES_LOAD({ notes }, payload) {
+            notes.list = payload;
         },
         STUDY_BEGIN({ study }) {
             study.status = 'active';
@@ -43,14 +54,30 @@ export const flashcards = createModel<RootModel>()({
         },
     },
     effects: (dispatch) => ({
-        async getDecksList() {
+        async getDecksList(deckIds: string[]) {
             try {
                 const { data } = await axios({
                     method: 'get',
                     url: 'http://localhost:9000/api/decks',
+                    params: { deckIds },
                 });
-
                 dispatch.flashcards.DECKS_LOAD(data);
+            } catch (ex) {
+                if (ex instanceof AxiosError) {
+                    console.warn(
+                        `${ex.message}. Check that Reaxis API is running and available.`
+                    );
+                }
+            }
+        },
+        async loadNotesByDeck(deckId: string) {
+            try {
+                const { data } = await axios({
+                    method: 'get',
+                    url: 'https://localhost:9000/api/notes',
+                    params: { deckId },
+                });
+                dispatch.flashcards.NOTES_LOAD(data);
             } catch (ex) {
                 if (ex instanceof AxiosError) {
                     console.warn(

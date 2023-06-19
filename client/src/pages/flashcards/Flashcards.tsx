@@ -9,21 +9,20 @@ const { Text } = Typography;
 
 export function Flashcards() {
     const dispatch = useDispatch<Dispatch>();
+    const userDecks = useSelector(({ DEV_AUTH }: RootState) => DEV_AUTH.flashcards.decks);
     const decksList = useSelector(({ flashcards }: RootState) => flashcards.decks.list);
+
+    const notesList = useSelector(({ flashcards }: RootState) => flashcards.notes?.list);
 
     useEffect(() => {
         dispatch.layout.HEADER_EDIT('Flashcards');
-        dispatch.quickActions.SET(quickActions);
-        dispatch.flashcards.getDecksList();
+        dispatch.flashcards.getDecksList(userDecks);
     }, []);
 
-    const quickActions = [
-        <div
-            key="11"
-            onClick={() => alert('Ayyyy')}>
-            Hello world!!!
-        </div>,
-    ];
+    function TestDeckFetch(deckId: string) {
+        dispatch.flashcards.loadNotesByDeck(deckId);
+        console.log(notesList);
+    }
 
     return (
         <DefaultPage>
@@ -73,7 +72,7 @@ export function Flashcards() {
                                 title={deck.name}>
                                 <Card
                                     hoverable
-                                    onClick={() => console.log('Deck clicked.')}
+                                    onClick={() => TestDeckFetch(deck._id)}
                                     title={deck.name}
                                     style={{
                                         minWidth: 256,

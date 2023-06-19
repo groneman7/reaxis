@@ -1,8 +1,10 @@
 import { CSSProperties, ReactNode } from 'react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, Typography } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import { AiOutlineHome } from 'react-icons/ai';
 import { RxLayers } from 'react-icons/rx';
+
+const { Text } = Typography;
 
 type BreadcrumbItem = {
     key: string;
@@ -23,6 +25,17 @@ const titleStyles: CSSProperties = {
 
 function breadcrumbMap(snippet: string, url: string): { title: ReactNode; icon?: ReactNode } {
     switch (snippet) {
+        case '':
+            return {
+                title: (
+                    <Link
+                        to={url}
+                        style={titleStyles}>
+                        <AiOutlineHome style={iconStyles} />
+                        Home
+                    </Link>
+                ),
+            };
         case 'flashcards':
             return {
                 title: (
@@ -34,15 +47,14 @@ function breadcrumbMap(snippet: string, url: string): { title: ReactNode; icon?:
                     </Link>
                 ),
             };
+
         default:
             return {
                 title: (
-                    <Link
-                        to={url}
-                        style={titleStyles}>
+                    <Text style={titleStyles}>
                         <AiOutlineHome style={iconStyles} />
-                        Home
-                    </Link>
+                        Undefined
+                    </Text>
                 ),
             };
     }

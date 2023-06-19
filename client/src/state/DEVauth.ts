@@ -1,5 +1,14 @@
 import { RootModel, createModel } from '.';
 
+type DEV_AUTH_STATE = {
+    flashcards: {
+        collections: string[];
+        decks: string[];
+        queue: string[];
+    };
+    userId: string;
+};
+
 export const DEV_AUTH = createModel<RootModel>()({
     state: {
         userId: 'groneman7',
@@ -16,5 +25,5 @@ export const DEV_AUTH = createModel<RootModel>()({
             ],
             queue: [''],
         },
-    },
+    } as DEV_AUTH_STATE,
 });

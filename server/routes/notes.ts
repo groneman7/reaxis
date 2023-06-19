@@ -1,48 +1,48 @@
 import express from 'express';
-export const decks = express.Router();
-import { DeckModel } from '../models';
+export const notes = express.Router();
+import { DeckModel, NoteModel } from '../models';
 
-const notFound = ['No decks exist.', 'A deck with the provided ID does not exist.'];
+const notFound = ['No notes exist.', 'A note with the provided ID does not exist.'];
 
-decks.get('/', async (req, res) => {
+notes.get('/', async (req, res) => {
     if ((Object.keys(req.query).length = 0)) {
         console.warn('No query was submitted.');
         res.status(400).send('No query was submitted.');
     } else {
-        if (req.query.deckIds) {
-            const result = await DeckModel.find({ _id: { $in: req.query.deckIds } });
+        if (req.query.deckId) {
+            const result = await DeckModel.find({ _id: req.query.deckId });
             return !!result ? res.send(result) : res.status(404).send(notFound[0]);
         }
     }
 });
 
-decks.get('/:id', async (req, res) => {
+notes.get('/:id', async (req, res) => {
     const { id } = req.params;
 
-    const result = await DeckModel.findById(id);
+    const result = await NoteModel.findById(id);
     return !!result ? res.status(200).send(result) : res.status(404).send(notFound[1]);
 });
 
-decks.post('/', async (req, res) => {
+notes.post('/', async (req, res) => {
     // Implement input validation here.
-    const newData = new DeckModel(req.body);
+    const newData = new NoteModel(req.body);
     res.status(201).send(await newData.save());
 });
 
-decks.put('/', async (req, res) => {
+notes.put('/', async (req, res) => {
     const { match, set } = req.body;
 
-    const result = await DeckModel.updateMany({ ...match }, { $set: { ...set } });
+    const result = await NoteModel.updateMany({ ...match }, { $set: { ...set } });
     return !!result
         ? res.status(200).send(result)
         : res.status(400).send('An unknown error occured.');
 });
 
-decks.put('/:id', async (req, res) => {
+notes.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
-    const result = await DeckModel.findByIdAndUpdate(
+    const result = await NoteModel.findByIdAndUpdate(
         id,
         { $set: { ...body } },
         { returnDocument: 'after' }
@@ -50,9 +50,9 @@ decks.put('/:id', async (req, res) => {
     return !!result ? res.status(200).send(result) : res.status(404).send(notFound[1]);
 });
 
-decks.delete('/:id', async (req, res) => {
+notes.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
-    const result = await DeckModel.findByIdAndDelete(id);
+    const result = await NoteModel.findByIdAndDelete(id);
     return !!result ? res.status(200).send(result) : res.status(404).send(notFound[1]);
 });
