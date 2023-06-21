@@ -1,17 +1,13 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import {
     CAN_REDO_COMMAND,
     CAN_UNDO_COMMAND,
-    REDO_COMMAND,
-    UNDO_COMMAND,
     SELECTION_CHANGE_COMMAND,
-    FORMAT_TEXT_COMMAND,
-    FORMAT_ELEMENT_COMMAND,
     $getSelection,
     $isRangeSelection,
     $createParagraphNode,
-    $getNodeByKey,
+    // $getNodeByKey,
 } from 'lexical';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { $isParentElementRTL, $wrapNodes, $isAtNodeEnd } from '@lexical/selection';
@@ -23,20 +19,40 @@ import {
     $isListNode,
     ListNode,
 } from '@lexical/list';
-// import { createPortal } from 'react-dom';
 import { $createHeadingNode, $createQuoteNode, $isHeadingNode } from '@lexical/rich-text';
 import {
     $createCodeNode,
-    $isCodeNode,
-    getDefaultCodeLanguage,
-    getCodeLanguages,
+    // $isCodeNode,
+    // getDefaultCodeLanguage,
+    // getCodeLanguages,
 } from '@lexical/code';
 import { Button, Divider, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
-import { CgRedo, CgUndo } from 'react-icons/cg';
-import { RxFontBold, RxFontItalic, RxStrikethrough, RxUnderline } from 'react-icons/rx';
+
+import { VscSettings } from 'react-icons/vsc';
+
+import {
+    AdvancedFormatButtons,
+    AlignmentButtons,
+    BasicFormatButtons,
+    UndoRedoButtons,
+} from './';
 
 const LowPriority = 1;
+
+// type SupportedBlockTypes =
+//     | 'paragraph'
+//     | 'h1'
+//     | 'h2'
+//     | 'h3'
+//     | 'h4'
+//     | 'h5'
+//     | 'h6'
+//     | 'quote'
+//     | 'callout'
+//     | 'code'
+//     | 'ul'
+//     | 'ol';
 
 const supportedBlockTypes = [
     { type: 'paragraph', name: 'Normal' },
@@ -453,24 +469,35 @@ export function ToolbarPlugin({ className, style }: ToolbarPluginProps) {
         padding: 4,
     };
 
+    const devOptions: MenuProps['items'] = [
+        {
+            key: 'main',
+            type: 'group',
+            label: 'Export',
+            children: [
+                {
+                    key: 'serialize',
+                    label: 'Serialize',
+                    onClick: onSerialize,
+                },
+                {
+                    key: 'clear-editor',
+                    label: 'Clear Editor',
+                    disabled: true,
+                },
+            ],
+        },
+    ];
+
     return (
         <div
             className={className}
             ref={toolbarRef}
             style={{ ...defaultToolbarStyle, ...style }}>
-            <Button
-                aria-label="Undo"
-                className=""
-                disabled={!canUndo}
-                icon={<CgUndo />}
-                onClick={() => editor.dispatchCommand(UNDO_COMMAND, void null)}
-            />
-            <Button
-                aria-label="Redo"
-                className=""
-                disabled={!canRedo}
-                icon={<CgRedo />}
-                onClick={() => editor.dispatchCommand(REDO_COMMAND, void null)}
+            <UndoRedoButtons
+                editor={editor}
+                canUndo={canUndo}
+                canRedo={canRedo}
             />
             <Divider type="vertical" />
             {supportedBlockTypes.find((f) => f.type === blockType) && (
@@ -500,43 +527,17 @@ export function ToolbarPlugin({ className, style }: ToolbarPluginProps) {
                 </>
             ) : (
                 <>
-                    <Button
-                        aria-label="Format Bold"
-                        className={isBold ? 'active' : ''}
-                        icon={<RxFontBold />}
-                        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
-                        type={isBold ? 'primary' : 'default'}
+                    <BasicFormatButtons
+                        editor={editor}
+                        isBold={isBold}
+                        isItalic={isItalic}
+                        isUnderline={isUnderline}
                     />
-                    <Button
-                        aria-label="Format Italics"
-                        className={isItalic ? 'active' : ''}
-                        icon={<RxFontItalic />}
-                        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')}
-                        type={isItalic ? 'primary' : 'default'}
+                    <AdvancedFormatButtons
+                        editor={editor}
+                        isCode={isCode}
+                        isStrikethrough={isStrikethrough}
                     />
-                    <Button
-                        aria-label="Format Underline"
-                        className={isUnderline ? 'active' : ''}
-                        icon={<RxUnderline />}
-                        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')}
-                        type={isUnderline ? 'primary' : 'default'}
-                    />
-                    <Button
-                        aria-label="Format Strikethrough"
-                        className={isStrikethrough ? 'active' : ''}
-                        icon={<RxStrikethrough />}
-                        onClick={() =>
-                            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
-                        }
-                        type={isStrikethrough ? 'primary' : 'default'}
-                    />
-                    <Button
-                        aria-label="Insert Code"
-                        className={isCode ? 'active' : ''}
-                        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')}
-                        type={isCode ? 'primary' : 'default'}>
-                        {'<>'}
-                    </Button>
                     <Button
                         aria-label="Insert Link"
                         className={isLink ? 'active' : ''}
@@ -545,32 +546,14 @@ export function ToolbarPlugin({ className, style }: ToolbarPluginProps) {
                         Link
                     </Button>
                     <Divider type="vertical" />
-                    <Button
-                        aria-label="Left Align"
-                        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')}>
-                        Left
-                    </Button>
-                    <Button
-                        aria-label="Center Align"
-                        onClick={() =>
-                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
-                        }>
-                        Center
-                    </Button>
-                    <Button
-                        aria-label="Right Align"
-                        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')}>
-                        Right
-                    </Button>
-                    <Button
-                        aria-label="Justify Align"
-                        onClick={() =>
-                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
-                        }>
-                        Justify
-                    </Button>
+                    <AlignmentButtons editor={editor} />
                     <Divider type="vertical" />
-                    <Button onClick={onSerialize}>Serialize</Button>
+                    <Dropdown
+                        menu={{ items: devOptions }}
+                        placement="bottomRight"
+                        trigger={['click']}>
+                        <Button icon={<VscSettings color="#eb2f96" />} />
+                    </Dropdown>
                 </>
             )}
         </div>
