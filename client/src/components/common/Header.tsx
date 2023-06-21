@@ -1,12 +1,15 @@
-import { RootState, useSelector } from '../../state';
+import { ReactNode } from 'react';
 import { Typography } from 'antd';
-import { Breadcrumbs, Flex } from './';
+import { Breadcrumbs, Flex, FlexProps } from './';
 
 const { Title } = Typography;
 
-export function Header() {
-    const headerTitle = useSelector((state: RootState) => state.layout.header);
+type HeaderProps = FlexProps & {
+    title: string;
+    toolbar?: ReactNode;
+};
 
+export function Header({ children, title, toolbar }: HeaderProps) {
     return (
         <Flex
             style={{
@@ -20,8 +23,10 @@ export function Header() {
                 <Title
                     level={1}
                     style={{ fontSize: 24, margin: '4px 0 0 0' }}>
-                    {headerTitle}
+                    {title || 'No title defined.'}
                 </Title>
+                {children}
+                {toolbar}
             </Flex>
         </Flex>
     );

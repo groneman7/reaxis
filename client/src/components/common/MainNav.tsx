@@ -9,6 +9,7 @@ import {
     ListOrdered,
     Stethoscope,
 } from 'lucide-react';
+import { MdEditNote } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 const { Sider } = Layout;
@@ -128,6 +129,9 @@ export function MainNav() {
                     <Menu.Item icon={<Stethoscope {...defaultProps['icon']} />}>
                         <Link to="/simulations">Simulations</Link>
                     </Menu.Item>
+                    <Menu.Item icon={<MdEditNote style={{ marginRight: 8 }} />}>
+                        <Link to="/lexical">Lexical Editor</Link>
+                    </Menu.Item>
                 </Menu>
                 <Spacer />
                 <Menu
@@ -153,35 +157,3 @@ export function MainNav() {
         </Sider>
     );
 }
-
-<Flex
-    column
-    gap={12}
-    style={{ padding: 8 }}>
-    <Button
-        href="/flashcards"
-        icon={<Layers {...defaultProps['icon']} />}
-        {...defaultProps['button']}>
-        Flashcards
-    </Button>
-    <Button
-        icon={<ListOrdered {...defaultProps['icon']} />}
-        {...defaultProps['button']}>
-        Questions
-    </Button>
-    <Button
-        icon={
-            <GitFork
-                {...defaultProps['icon']}
-                style={{ transform: 'rotate(180deg)', marginRight: 8 }}
-            />
-        }
-        {...defaultProps['button']}>
-        Diagrams
-    </Button>
-    <Button
-        icon={<Stethoscope {...defaultProps['icon']} />}
-        {...defaultProps['button']}>
-        Simulations
-    </Button>
-</Flex>;

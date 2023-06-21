@@ -5,11 +5,7 @@ export function Toolbar({ children }: FlexProps) {
     return (
         <Flex
             gap={8}
-            style={{
-                // borderBottom: '1px solid',
-                margin: '-32px -64px 32px -64px',
-                padding: '4px',
-            }}>
+            style={{ borderBottom: '1px solid #f0f0f0', padding: 8 }}>
             {children}
         </Flex>
     );

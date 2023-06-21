@@ -1,7 +1,15 @@
 import { useEffect } from 'react';
 import { Dispatch, useDispatch } from '../../state';
 import { Button, Divider, Form, Input, Select, Typography } from 'antd';
-import { DefaultPage, Editor, Flex, Spacer, Toolbar, ToolbarButton } from '../../components';
+import {
+    DefaultPage,
+    Editor,
+    Flex,
+    Header,
+    Spacer,
+    Toolbar,
+    ToolbarButton,
+} from '../../components';
 import { FiMinus } from 'react-icons/fi';
 
 const { Title } = Typography;
@@ -17,13 +25,16 @@ export function NewDeck() {
     }, []);
 
     return (
-        <DefaultPage style={{ alignItems: 'stretch' }}>
-            <Toolbar>
-                <ToolbarButton>Import</ToolbarButton>
-                <Spacer />
-                <ToolbarButton>Save Draft</ToolbarButton>
-                <ToolbarButton type="primary">Publish</ToolbarButton>
-            </Toolbar>
+        <DefaultPage
+            header={<Header title="Create New Deck" />}
+            toolbar={
+                <Toolbar>
+                    <ToolbarButton>Import</ToolbarButton>
+                    <Spacer />
+                    <ToolbarButton>Save Draft</ToolbarButton>
+                    <ToolbarButton type="primary">Publish</ToolbarButton>
+                </Toolbar>
+            }>
             <Form
                 layout="vertical"
                 form={form}>

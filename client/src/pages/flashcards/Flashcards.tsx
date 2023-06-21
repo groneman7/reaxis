@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Dispatch, RootState, useDispatch, useSelector } from '../../state';
 import { Link } from 'react-router-dom';
 import { Button, Card, Divider, Progress, Tooltip, Typography } from 'antd';
-import { DefaultPage, Flex, Spacer } from '../../components';
+import { DefaultPage, Flex, Header, Spacer } from '../../components';
 import { FaPlus } from 'react-icons/fa';
 
 const { Text } = Typography;
@@ -25,7 +25,7 @@ export function Flashcards() {
     }
 
     return (
-        <DefaultPage>
+        <DefaultPage header={<Header title="Flashcards" />}>
             <Divider orientation="left">
                 Jump back into <strong>Queued Cards</strong>
             </Divider>

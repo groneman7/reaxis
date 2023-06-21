@@ -22,7 +22,7 @@ export function Sidebar({ isOpen, onToggleSidebar }: SidebarProps) {
             <Button
                 icon={
                     <ChevronRight
-                        strokeWidth={4}
+                        strokeWidth={3}
                         style={{
                             transform: isOpen ? '' : 'rotate(180deg)',
                             transition: 'transform 120ms ease-in-out',
@@ -36,6 +36,7 @@ export function Sidebar({ isOpen, onToggleSidebar }: SidebarProps) {
                     display: 'flex',
                     height: '192px',
                     justifyContent: 'center',
+                    overflow: 'hidden',
                     position: 'absolute',
                     top: '50%',
                     transform: `translate(${isOpen ? '-50%' : '-100%'}, -50%)`,
