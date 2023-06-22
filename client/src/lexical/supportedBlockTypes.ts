@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
 import { $createParagraphNode, $getSelection, $isRangeSelection, LexicalEditor } from 'lexical';
 import { $createCodeNode } from '@lexical/code';
 import { INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
 import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
 import { $wrapNodes } from '@lexical/selection';
 
-type SupportedBlockTypes =
+export type SupportedBlockTypes =
     | 'paragraph'
     | 'h1'
     | 'h2'
@@ -20,15 +21,16 @@ type SupportedBlockTypes =
 
 type BlockTypeProps = {
     key: string;
+    icon?: ReactNode;
     label: string;
-    onClick?: (editor: LexicalEditor) => void;
+    format?: (editor: LexicalEditor) => void;
 };
 
 export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = {
     paragraph: {
         key: 'paragraph',
         label: 'Normal',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -41,7 +43,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     h1: {
         key: 'h1',
         label: 'Heading 1',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -54,7 +56,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     h2: {
         key: 'h2',
         label: 'Heading 2',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -67,7 +69,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     h3: {
         key: 'h3',
         label: 'Heading 3',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -80,7 +82,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     h4: {
         key: 'h4',
         label: 'Heading 4',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -93,7 +95,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     h5: {
         key: 'h5',
         label: 'Heading 5',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -106,7 +108,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     h6: {
         key: 'h6',
         label: 'Heading 6',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -119,7 +121,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     quote: {
         key: 'quote',
         label: 'Quote',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -132,7 +134,7 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     code: {
         key: 'code',
         label: 'Code',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.update(() => {
                 const selection = $getSelection();
 
@@ -145,21 +147,21 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
     callout: {
         key: 'callout',
         label: 'Callout',
-        onClick: (editor) => {
+        format: (editor) => {
             // Implement callout format here.
         },
     },
     ul: {
         key: 'ul',
         label: 'Bulleted List',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, void null);
         },
     },
     ol: {
         key: 'ol',
         label: 'Numbered List',
-        onClick: (editor) => {
+        format: (editor) => {
             editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, void null);
         },
     },

@@ -17,7 +17,7 @@ export function LexicalTest() {
                     column
                     style={{ marginBottom: 32 }}>
                     <Title level={4}>Editor</Title>
-                    <Editor />
+                    <Editor allowedBlocks={['paragraph', 'h4', 'h5']} />
                 </Flex>
             </Flex>
         </DefaultPage>

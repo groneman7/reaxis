@@ -6,63 +6,26 @@ import {
     SELECTION_CHANGE_COMMAND,
     $getSelection,
     $isRangeSelection,
-    $createParagraphNode,
     // $getNodeByKey,
 } from 'lexical';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { $isParentElementRTL, $wrapNodes, $isAtNodeEnd } from '@lexical/selection';
+import { $isParentElementRTL, $isAtNodeEnd } from '@lexical/selection';
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
+import { $isListNode, ListNode } from '@lexical/list';
+import { $isHeadingNode } from '@lexical/rich-text';
+import { Button } from 'antd';
 import {
-    INSERT_ORDERED_LIST_COMMAND,
-    INSERT_UNORDERED_LIST_COMMAND,
-    REMOVE_LIST_COMMAND,
-    $isListNode,
-    ListNode,
-} from '@lexical/list';
-import { $createHeadingNode, $createQuoteNode, $isHeadingNode } from '@lexical/rich-text';
-import {
-    $createCodeNode,
-    // $isCodeNode,
-    // getDefaultCodeLanguage,
-    // getCodeLanguages,
-} from '@lexical/code';
-import { Button, Divider, Dropdown } from 'antd';
-import type { MenuProps } from 'antd';
-
-import { VscSettings } from 'react-icons/vsc';
-
-import {
+    DevOptions,
     AdvancedFormatButtons,
     AlignmentButtons,
     BasicFormatButtons,
+    BlockSelector,
     UndoRedoButtons,
 } from './';
+import type { SupportedBlockTypes } from '../../supportedBlockTypes';
+import { defaultStyle } from '../../style';
 
 const LowPriority = 1;
-
-// type SupportedBlockTypes =
-//     | 'paragraph'
-//     | 'h1'
-//     | 'h2'
-//     | 'h3'
-//     | 'h4'
-//     | 'h5'
-//     | 'h6'
-//     | 'quote'
-//     | 'callout'
-//     | 'code'
-//     | 'ul'
-//     | 'ol';
-
-const supportedBlockTypes = [
-    { type: 'paragraph', name: 'Normal' },
-    { type: 'h4', name: 'Heading' },
-    { type: 'h5', name: 'Subheading' },
-    { type: 'quote', name: 'Quotes' },
-    { type: 'code', name: 'Code' },
-    { type: 'ul', name: 'Bulleted List' },
-    { type: 'ol', name: 'Numbered List' },
-];
 
 // ** Default floating link editor **
 // function positionEditorElement(editor, rect) {
@@ -263,99 +226,27 @@ function getSelectedNode(selection: any) {
     }
 }
 
-function BlockOptionsDropdownMenuItems({
-    editor,
-    blockType,
-}: {
-    editor: any;
-    blockType: string;
-}): MenuProps['items'] {
-    function formatBlock(desiredType: string) {
-        if (blockType === desiredType) {
-            if (desiredType !== 'ul' && desiredType !== 'ol') {
-                editor.update(() => {
-                    const selection = $getSelection();
-
-                    if ($isRangeSelection(selection)) {
-                        $wrapNodes(selection, () => $createParagraphNode());
-                    }
-                });
-            } else {
-                editor.dispatchCommand(REMOVE_LIST_COMMAND);
-            }
-        } else {
-            blockType !== desiredType;
-            switch (desiredType) {
-                case 'paragraph':
-                    editor.update(() => {
-                        const selection = $getSelection();
-
-                        if ($isRangeSelection(selection)) {
-                            $wrapNodes(selection, () => $createParagraphNode());
-                        }
-                    });
-                    break;
-                case 'h4':
-                    editor.update(() => {
-                        const selection = $getSelection();
-
-                        if ($isRangeSelection(selection)) {
-                            $wrapNodes(selection, () => $createHeadingNode('h4'));
-                        }
-                    });
-                    break;
-                case 'h5':
-                    editor.update(() => {
-                        const selection = $getSelection();
-
-                        if ($isRangeSelection(selection)) {
-                            $wrapNodes(selection, () => $createHeadingNode('h5'));
-                        }
-                    });
-                    break;
-                case 'quote':
-                    editor.update(() => {
-                        const selection = $getSelection();
-
-                        if ($isRangeSelection(selection)) {
-                            $wrapNodes(selection, () => $createQuoteNode());
-                        }
-                    });
-                    break;
-                case 'code':
-                    editor.update(() => {
-                        const selection = $getSelection();
-
-                        if ($isRangeSelection(selection)) {
-                            $wrapNodes(selection, () => $createCodeNode());
-                        }
-                    });
-                    break;
-                case 'ul':
-                    editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND);
-                    break;
-                case 'ol':
-                    editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND);
-                    break;
-            }
-        }
-    }
-
-    return supportedBlockTypes.map((t) => {
-        return {
-            key: t.type,
-            label: t.name,
-            onClick: () => formatBlock(t.type),
-        };
-    });
-}
-
 type ToolbarPluginProps = {
-    className?: string;
+    allowedBlocks?: SupportedBlockTypes[];
     style?: CSSProperties;
 };
-
-export function ToolbarPlugin({ className, style }: ToolbarPluginProps) {
+export function ToolbarPlugin({
+    allowedBlocks = [
+        'paragraph',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'code',
+        'quote',
+        'callout',
+        'ul',
+        'ol',
+    ],
+    style,
+}: ToolbarPluginProps) {
     const [editor] = useLexicalComposerContext();
     const toolbarRef = useRef(null);
     const [canUndo, setCanUndo] = useState(false);
@@ -453,68 +344,19 @@ export function ToolbarPlugin({ className, style }: ToolbarPluginProps) {
         }
     }, [editor, isLink]);
 
-    function onSerialize() {
-        const json = editor.toJSON();
-        const asString = JSON.stringify(json['editorState']);
-        console.log(asString);
-    }
-
-    const defaultToolbarStyle: CSSProperties = {
-        alignItems: 'center',
-        background: '#e6f4ff',
-        display: 'flex',
-        flex: 1,
-        gap: 4,
-        justifyContent: 'flex-start',
-        padding: 4,
-    };
-
-    const devOptions: MenuProps['items'] = [
-        {
-            key: 'main',
-            type: 'group',
-            label: 'Export',
-            children: [
-                {
-                    key: 'serialize',
-                    label: 'Serialize',
-                    onClick: onSerialize,
-                },
-                {
-                    key: 'clear-editor',
-                    label: 'Clear Editor',
-                    disabled: true,
-                },
-            ],
-        },
-    ];
-
     return (
         <div
-            className={className}
             ref={toolbarRef}
-            style={{ ...defaultToolbarStyle, ...style }}>
+            style={{ ...defaultStyle['toolbar'], ...style }}>
             <UndoRedoButtons
                 editor={editor}
                 canUndo={canUndo}
                 canRedo={canRedo}
             />
-            <Divider type="vertical" />
-            {supportedBlockTypes.find((f) => f.type === blockType) && (
-                <>
-                    <Dropdown
-                        menu={{
-                            items: BlockOptionsDropdownMenuItems({
-                                editor: editor,
-                                blockType: blockType,
-                            }),
-                        }}
-                        trigger={['click']}>
-                        <Button>{supportedBlockTypes.find((f) => f.type)!['name']}</Button>
-                    </Dropdown>
-                    <Divider type="vertical" />
-                </>
-            )}
+            <BlockSelector
+                editor={editor}
+                allowedBlocks={allowedBlocks}
+            />
             {blockType === 'code' ? (
                 <>
                     {/* <Select
@@ -545,15 +387,8 @@ export function ToolbarPlugin({ className, style }: ToolbarPluginProps) {
                         type={isLink ? 'primary' : 'default'}>
                         Link
                     </Button>
-                    <Divider type="vertical" />
                     <AlignmentButtons editor={editor} />
-                    <Divider type="vertical" />
-                    <Dropdown
-                        menu={{ items: devOptions }}
-                        placement="bottomRight"
-                        trigger={['click']}>
-                        <Button icon={<VscSettings color="#eb2f96" />} />
-                    </Dropdown>
+                    <DevOptions editor={editor} />
                 </>
             )}
         </div>

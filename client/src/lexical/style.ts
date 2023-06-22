@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 export const editorThemeClasses = {
     ltr: 'ltr',
     rtl: 'rtl',
@@ -31,5 +33,23 @@ export const editorThemeClasses = {
         strikethrough: 'editor-text-strikethrough',
         underlineStrikethrough: 'editor-text-underlineStrikethrough',
         code: 'editor-text-code',
+    },
+};
+
+export const defaultStyle: Record<'button' | 'icon' | 'toolbar', CSSProperties> = {
+    button: {
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    icon: { marginLeft: 2, marginRight: -6 },
+    toolbar: {
+        alignItems: 'center',
+        background: '#e6f4ff',
+        display: 'flex',
+        flex: 1,
+        gap: 8,
+        justifyContent: 'flex-start',
+        padding: 4,
     },
 };

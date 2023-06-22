@@ -4,7 +4,8 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import * as Nodes from './nodes';
 import * as Plugins from './plugins';
-import { editorThemeClasses } from './theme';
+import { SupportedBlockTypes } from './supportedBlockTypes';
+import { editorThemeClasses } from './style';
 import './EditorDefault.css';
 
 // import { initial } from './testDefaultText';
@@ -20,19 +21,18 @@ const editorConfig = {
 };
 
 type EditorProps = {
+    allowedBlocks?: SupportedBlockTypes[];
     className?: string;
-    style?: CSSProperties;
-    toolbarClassName?: string;
     toolbarStyle?: CSSProperties;
 };
 
 export function Editor(props: EditorProps) {
-    const { className, style, toolbarClassName, toolbarStyle } = props;
+    const { allowedBlocks, className, toolbarStyle } = props;
     return (
         <div className={`editor-container ${className}`}>
             <LexicalComposer initialConfig={editorConfig}>
                 <Plugins.ToolbarPlugin
-                    className={toolbarClassName}
+                    allowedBlocks={allowedBlocks}
                     style={{ ...toolbarStyle }}
                 />
                 <Plugins.RichTextPlugin
