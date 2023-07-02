@@ -6,6 +6,7 @@ export const editorThemeClasses = {
     placeholder: 'editor-placeholder',
     paragraph: 'editor-paragraph',
     quote: 'editor-quote',
+    callout: 'editor-callout',
     heading: {
         h1: 'editor-heading-h1',
         h2: 'editor-heading-h2',

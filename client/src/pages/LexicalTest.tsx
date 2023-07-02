@@ -16,8 +16,22 @@ export function LexicalTest() {
                 <Flex
                     column
                     style={{ marginBottom: 32 }}>
-                    <Title level={4}>Editor</Title>
-                    <Editor allowedBlocks={['paragraph', 'h4', 'h5']} />
+                    <Title level={4}>Customized Editor</Title>
+                    <Editor
+                        allowedBlocks={['paragraph', 'h4', 'h5']}
+                        components={[
+                            'undo-redo-buttons',
+                            'block-selector',
+                            'basic-format-buttons',
+                            'dev-options',
+                        ]}
+                    />
+                </Flex>
+                <Flex
+                    column
+                    style={{ marginBottom: 32 }}>
+                    <Title level={4}>Full Editor with Lorem</Title>
+                    <Editor lorem />
                 </Flex>
             </Flex>
         </DefaultPage>

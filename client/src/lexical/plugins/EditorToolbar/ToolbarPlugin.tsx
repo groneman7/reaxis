@@ -13,17 +13,19 @@ import { $isParentElementRTL, $isAtNodeEnd } from '@lexical/selection';
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
-import { Button } from 'antd';
 import {
+    SupportedComponents,
     DevOptions,
     AdvancedFormatButtons,
     AlignmentButtons,
     BasicFormatButtons,
     BlockSelector,
+    LinkButton,
     UndoRedoButtons,
 } from './';
-import type { SupportedBlockTypes } from '../../supportedBlockTypes';
-import { defaultStyle } from '../../style';
+import type { SupportedBlockTypes } from '../../utils/blockTypes';
+import { defaultStyle } from '../../utils/style';
+import React from 'react';
 
 const LowPriority = 1;
 
@@ -228,6 +230,7 @@ function getSelectedNode(selection: any) {
 
 type ToolbarPluginProps = {
     allowedBlocks?: SupportedBlockTypes[];
+    components?: SupportedComponents[];
     style?: CSSProperties;
 };
 export function ToolbarPlugin({
@@ -245,6 +248,15 @@ export function ToolbarPlugin({
         'ul',
         'ol',
     ],
+    components = [
+        'undo-redo-buttons',
+        'block-selector',
+        'basic-format-buttons',
+        'advanced-format-buttons',
+        'alignment-buttons',
+        'link-button',
+        'dev-options',
+    ],
     style,
 }: ToolbarPluginProps) {
     const [editor] = useLexicalComposerContext();
@@ -255,12 +267,51 @@ export function ToolbarPlugin({
     const [selectedElementKey, setSelectedElementKey] = useState(null);
     // const [codeLanguage, setCodeLanguage] = useState('');
     const [isRTL, setIsRTL] = useState(false);
-    const [isLink, setIsLink] = useState(false);
+    const [selectedLink, setSelectedLink] = useState(null);
     const [isBold, setIsBold] = useState(false);
     const [isItalic, setIsItalic] = useState(false);
     const [isUnderline, setIsUnderline] = useState(false);
     const [isStrikethrough, setIsStrikethrough] = useState(false);
     const [isCode, setIsCode] = useState(false);
+
+    const mapToolbarComponents: Record<SupportedComponents, JSX.Element> = {
+        'dev-options': <DevOptions editor={editor} />,
+        'advanced-format-buttons': (
+            <AdvancedFormatButtons
+                editor={editor}
+                isCode={isCode}
+                isStrikethrough={isStrikethrough}
+            />
+        ),
+        'alignment-buttons': <AlignmentButtons editor={editor} />,
+        'basic-format-buttons': (
+            <BasicFormatButtons
+                editor={editor}
+                isBold={isBold}
+                isItalic={isItalic}
+                isUnderline={isUnderline}
+            />
+        ),
+        'block-selector': (
+            <BlockSelector
+                editor={editor}
+                allowedBlocks={allowedBlocks}
+            />
+        ),
+        'link-button': (
+            <LinkButton
+                editor={editor}
+                link={selectedLink}
+            />
+        ),
+        'undo-redo-buttons': (
+            <UndoRedoButtons
+                editor={editor}
+                canRedo={canRedo}
+                canUndo={canUndo}
+            />
+        ),
+    };
 
     const updateToolbar = useCallback(() => {
         const selection = $getSelection();
@@ -295,9 +346,9 @@ export function ToolbarPlugin({
             const node = getSelectedNode(selection);
             const parent = node.getParent();
             if ($isLinkNode(parent) || $isLinkNode(node)) {
-                setIsLink(true);
+                setSelectedLink(parent.__url || node.__url);
             } else {
-                setIsLink(false);
+                setSelectedLink(null);
             }
         }
     }, [editor]);
@@ -336,61 +387,13 @@ export function ToolbarPlugin({
         );
     }, [editor, updateToolbar]);
 
-    const insertLink = useCallback(() => {
-        if (!isLink) {
-            editor.dispatchCommand(TOGGLE_LINK_COMMAND, 'https://');
-        } else {
-            editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-        }
-    }, [editor, isLink]);
-
     return (
         <div
             ref={toolbarRef}
             style={{ ...defaultStyle['toolbar'], ...style }}>
-            <UndoRedoButtons
-                editor={editor}
-                canUndo={canUndo}
-                canRedo={canRedo}
-            />
-            <BlockSelector
-                editor={editor}
-                allowedBlocks={allowedBlocks}
-            />
-            {blockType === 'code' ? (
-                <>
-                    {/* <Select
-                        className="toolbar-item code-language"
-                        onChange={onCodeLanguageSelect}
-                        options={codeLanguges}
-                        value={codeLanguage}
-                    />
-                    <i className="chevron-down inside" /> */}
-                </>
-            ) : (
-                <>
-                    <BasicFormatButtons
-                        editor={editor}
-                        isBold={isBold}
-                        isItalic={isItalic}
-                        isUnderline={isUnderline}
-                    />
-                    <AdvancedFormatButtons
-                        editor={editor}
-                        isCode={isCode}
-                        isStrikethrough={isStrikethrough}
-                    />
-                    <Button
-                        aria-label="Insert Link"
-                        className={isLink ? 'active' : ''}
-                        onClick={insertLink}
-                        type={isLink ? 'primary' : 'default'}>
-                        Link
-                    </Button>
-                    <AlignmentButtons editor={editor} />
-                    <DevOptions editor={editor} />
-                </>
-            )}
+            {components.map((c) => (
+                <React.Fragment key={c}>{mapToolbarComponents[c]}</React.Fragment>
+            ))}
         </div>
     );
 }

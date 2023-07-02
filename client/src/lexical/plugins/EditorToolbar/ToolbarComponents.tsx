@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, ReactNode, useCallback, useEffect, useState } from 'react';
 import {
     FORMAT_ELEMENT_COMMAND,
     FORMAT_TEXT_COMMAND,
@@ -6,15 +6,16 @@ import {
     REDO_COMMAND,
     UNDO_COMMAND,
 } from 'lexical';
-import { supportedBlockTypes, SupportedBlockTypes } from '../../supportedBlockTypes';
-import { Button, Dropdown } from 'antd';
+import { supportedBlockTypes, SupportedBlockTypes } from '../../utils/blockTypes';
+import { Button, Dropdown, Form, Input, Popover } from 'antd';
 import type { MenuProps } from 'antd';
-import { CgRedo, CgUndo } from 'react-icons/cg';
+import { CgRedo, CgTrash, CgUndo } from 'react-icons/cg';
 import {
     RxCaretDown,
     RxCode,
     RxFontBold,
     RxFontItalic,
+    RxLink1,
     RxStrikethrough,
     RxTextAlignCenter,
     RxTextAlignJustify,
@@ -23,11 +24,18 @@ import {
     RxUnderline,
 } from 'react-icons/rx';
 import { VscSettings } from 'react-icons/vsc';
-import { defaultStyle } from '../../style';
+import { defaultStyle } from '../../utils/style';
+import { TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { sanitizeUrl } from '../../utils';
 
-export const mapComponents: Record<'dev-options' | 'alignment-buttons', JSX.Element> = {
-    'dev-options': <DevOptions />,
-};
+export type SupportedComponents =
+    | 'dev-options'
+    | 'alignment-buttons'
+    | 'advanced-format-buttons'
+    | 'basic-format-buttons'
+    | 'block-selector'
+    | 'link-button'
+    | 'undo-redo-buttons';
 
 type Editor = { editor: LexicalEditor };
 type ToolbarComponentContainerProps = {
@@ -67,12 +75,15 @@ export function DevOptions({ editor }: DevOptionsProps) {
         console.log(asString);
     }
     return (
-        <Dropdown
-            menu={{ items: devOptions }}
-            placement="bottomRight"
-            trigger={['click']}>
-            <Button icon={<VscSettings color="#eb2f96" />} />
-        </Dropdown>
+        <>
+            <div style={{ display: 'flex', flex: 1 }}></div>
+            <Dropdown
+                menu={{ items: devOptions }}
+                placement="bottomRight"
+                trigger={['click']}>
+                <Button icon={<VscSettings color="#eb2f96" />} />
+            </Dropdown>
+        </>
     );
 }
 
@@ -163,7 +174,11 @@ export function BasicFormatButtons({
                 className={isBold ? 'active' : ''}
                 icon={<RxFontBold />}
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
-                style={{ ...defaultStyle['button'] }}
+                style={{
+                    ...defaultStyle['button'],
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                }}
                 type={isBold ? 'primary' : 'default'}
             />
             <Button
@@ -171,7 +186,7 @@ export function BasicFormatButtons({
                 className={isItalic ? 'active' : ''}
                 icon={<RxFontItalic />}
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')}
-                style={{ ...defaultStyle['button'] }}
+                style={{ ...defaultStyle['button'], borderRadius: 0 }}
                 type={isItalic ? 'primary' : 'default'}
             />
             <Button
@@ -179,7 +194,11 @@ export function BasicFormatButtons({
                 className={isUnderline ? 'active' : ''}
                 icon={<RxUnderline />}
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')}
-                style={{ ...defaultStyle['button'] }}
+                style={{
+                    ...defaultStyle['button'],
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                }}
                 type={isUnderline ? 'primary' : 'default'}
             />
         </ToolbarComponentContainer>
@@ -214,6 +233,79 @@ export function BlockSelector({ editor, allowedBlocks }: BlockSelectorProps) {
                     <RxCaretDown style={{ marginLeft: 2, marginRight: -6 }} />
                 </Button>
             </Dropdown>
+        </ToolbarComponentContainer>
+    );
+}
+
+//----------------------------------------------------------------
+
+type LinkButtonProps = Editor & {
+    link: string | null;
+};
+export function LinkButton({ editor, link }: LinkButtonProps) {
+    const [open, setOpen] = useState(false);
+    const [form] = Form.useForm();
+    const url = Form.useWatch('url', form);
+
+    useEffect(() => {
+        form.setFieldValue('url', link);
+    }, [link]);
+
+    const removeLink = () => {
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+        setOpen(false);
+    };
+
+    const updateLink = () => {
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(url));
+        setOpen(false);
+    };
+
+    return (
+        <ToolbarComponentContainer>
+            <Popover
+                content={
+                    <Form
+                        colon={false}
+                        form={form}
+                        layout="vertical">
+                        <Form.Item
+                            label="URL"
+                            name="url">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="Text">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <div style={{ display: 'flex' }}>
+                                <Button
+                                    onClick={removeLink}
+                                    type="ghost"
+                                    style={{ ...defaultStyle['button'] }}>
+                                    <CgTrash />
+                                </Button>
+                                <div style={{ flex: 1 }}></div>
+                                <Button
+                                    onClick={updateLink}
+                                    type="primary">
+                                    {!link ? 'Insert' : 'Update'}
+                                </Button>
+                            </div>
+                        </Form.Item>
+                    </Form>
+                }
+                open={open}
+                onOpenChange={() => setOpen(!open)}
+                title={!link ? 'Insert Link' : 'Update Link'}
+                trigger="click">
+                <Button
+                    aria-label="Insert or edit link"
+                    icon={<RxLink1 />}
+                    style={{ ...defaultStyle['button'] }}
+                    type={!link ? 'default' : 'primary'}
+                />
+            </Popover>
         </ToolbarComponentContainer>
     );
 }

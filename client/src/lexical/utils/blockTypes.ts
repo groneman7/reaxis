@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { $createParagraphNode, $getSelection, $isRangeSelection, LexicalEditor } from 'lexical';
+import { $createCalloutNode } from '../nodes';
 import { $createCodeNode } from '@lexical/code';
 import { INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
 import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
@@ -148,7 +149,13 @@ export const supportedBlockTypes: Record<SupportedBlockTypes, BlockTypeProps> = 
         key: 'callout',
         label: 'Callout',
         format: (editor) => {
-            // Implement callout format here.
+            editor.update(() => {
+                const selection = $getSelection();
+
+                if ($isRangeSelection(selection)) {
+                    $wrapNodes(selection, () => $createCalloutNode());
+                }
+            });
         },
     },
     ul: {
