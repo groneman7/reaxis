@@ -1,4 +1,5 @@
 import { CSSProperties, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
@@ -8,6 +9,8 @@ import { SupportedComponents } from './plugins/EditorToolbar';
 import { SupportedBlockTypes } from './utils/blockTypes';
 import { editorThemeClasses } from './utils/style';
 import './EditorDefault.css';
+
+import { NodeEventPlugin } from '@lexical/react/LexicalNodeEventPlugin';
 
 import { initial } from './utils';
 
@@ -20,6 +23,7 @@ type EditorProps = {
 };
 export function Editor(props: EditorProps) {
     const { allowedBlocks, className, components, lorem, toolbarStyle } = props;
+    const [test, setTest] = useState(false);
 
     const editorConfig = {
         namespace: 'MyEditor',
@@ -34,8 +38,9 @@ export function Editor(props: EditorProps) {
             Nodes.ListItemNode,
             Nodes.QuoteNode,
             Nodes.CalloutNode,
+            // Nodes.TestDecorator,
         ],
-        editorState: lorem ? initial : null,
+        editorState: lorem ? initial : undefined,
     };
 
     const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
@@ -45,6 +50,21 @@ export function Editor(props: EditorProps) {
             setFloatingAnchorElem(_floatingAnchorElem);
         }
     };
+
+    function Test() {
+        console.log('test again');
+        return (
+            <div style={{ background: 'lime', position: 'absolute', top: 0, left: 0 }}>
+                test
+            </div>
+        );
+    }
+
+    function TestPortal(anchor: HTMLElement | DocumentFragment) {
+        console.log('test');
+        console.log(anchor);
+        return createPortal(<Test />, document.body);
+    }
 
     return (
         <>
@@ -75,6 +95,14 @@ export function Editor(props: EditorProps) {
                     <Plugins.FloatingTextFormatToolbarPlugin
                         anchorElem={floatingAnchorElem || undefined}
                     />
+                    <NodeEventPlugin
+                        nodeType={Nodes.HeadingNode}
+                        eventType="click"
+                        eventListener={(e: Event) => {
+                            setTest(true);
+                        }}
+                    />
+                    {/* <Plugins.TestPlugin /> */}
                     {/* <ClickableLinkPlugin /> */}
                     {/* <ListMaxIndentLevelPlugin maxDepth={4} /> */}
                 </LexicalComposer>

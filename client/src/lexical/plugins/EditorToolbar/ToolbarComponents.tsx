@@ -27,9 +27,11 @@ import { VscSettings } from 'react-icons/vsc';
 import { defaultStyle } from '../../utils/style';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { sanitizeUrl } from '../../utils';
+import { TOGGLE_TEST_DECORATOR } from '../../nodes';
 
 export type SupportedComponents =
     | 'dev-options'
+    | 'test-dec'
     | 'alignment-buttons'
     | 'advanced-format-buttons'
     | 'basic-format-buttons'
@@ -84,6 +86,18 @@ export function DevOptions({ editor }: DevOptionsProps) {
                 <Button icon={<VscSettings color="#eb2f96" />} />
             </Dropdown>
         </>
+    );
+}
+
+//----------------------------------------------------------------
+
+export function TestDecoratorButton({ editor }: Editor) {
+    return (
+        <ToolbarComponentContainer>
+            <Button onClick={() => editor.dispatchCommand(TOGGLE_TEST_DECORATOR, 'test-class')}>
+                Dec
+            </Button>
+        </ToolbarComponentContainer>
     );
 }
 

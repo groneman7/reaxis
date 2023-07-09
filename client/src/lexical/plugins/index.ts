@@ -4,3 +4,4 @@ export { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 
 export * from './LinkPlugin';
 export * from './EditorToolbar';
+export * from './TestPlugin';
