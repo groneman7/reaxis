@@ -1,16 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export type Deck = {
-    _id: string; // This will probably change to match MongoDB's ObjectId structure.
-    collaborators: string[]; // userIds
-    isCopy: boolean;
-    name: string;
-    notes: string[]; // noteIds
-    notifications: string[] | null; // List of notifications. This will probably also change to be an object of some sort.
-    owner: string; // userId
-    parentId?: string; // _id of original deck IF isCopy === true
-    subscriptions: string[]; // userIds
-};
+import type { Deck } from '../../types';
 
 const DeckSchema = new Schema<Deck>({
     collaborators: Array,
