@@ -6,7 +6,6 @@ const NoteSchema = new Schema<Note>({
     collaborators: Array,
     details: Array,
     front: String,
-    isCopy: Boolean,
     notifications: { type: Array, required: false },
     owner: String,
     parentId: { type: String, required: false },

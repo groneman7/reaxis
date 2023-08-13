@@ -1,7 +1,7 @@
 export interface Card {
     // Cards will not be individually stored in the database.
+    index: number;
     noteId: string;
-    variant: number;
 }
 
 export interface Collaboration {

@@ -60,10 +60,13 @@ function TextFormatFloatingToolbar({
         }
     }
     function mouseUpListener(e: MouseEvent) {
-        if (popupCharStylesEditorRef?.current) {
+        if (
+            popupCharStylesEditorRef?.current &&
+            popupCharStylesEditorRef.current.style.opacity !== '1'
+        ) {
             popupCharStylesEditorRef.current.style.pointerEvents = 'auto';
-            popupCharStylesEditorRef.current.style.top = `${e.clientY + VERTICAL_OFFSET}px`;
-            popupCharStylesEditorRef.current.style.left = `${e.clientX + HORIZONTAL_OFFSET}px`;
+            popupCharStylesEditorRef.current.style.top = `${e.pageY + VERTICAL_OFFSET}px`;
+            popupCharStylesEditorRef.current.style.left = `${e.pageX + HORIZONTAL_OFFSET}px`;
             popupCharStylesEditorRef.current.style.opacity = '1';
         }
     }

@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Layout } from 'antd';
-import { Flex, Header, Toolbar } from './';
+import { Flex } from './';
 
 const { Content } = Layout;
 

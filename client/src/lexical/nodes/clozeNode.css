@@ -1,0 +1,7 @@
+.cloze-container {
+    background: rgba(255, 100, 0, 0.3);
+    border-radius: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 100, 0, 0.3);
+    cursor: default;
+    user-select: none;
+}

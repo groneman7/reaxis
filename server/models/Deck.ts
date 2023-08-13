@@ -3,7 +3,6 @@ import type { Deck } from '../../types';
 
 const DeckSchema = new Schema<Deck>({
     collaborators: Array,
-    isCopy: Boolean,
     name: String,
     notes: Array,
     notifications: { type: Array, required: false },

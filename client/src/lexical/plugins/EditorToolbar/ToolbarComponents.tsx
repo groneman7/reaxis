@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useCallback, useEffect, useState } from 'react';
+import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import {
     FORMAT_ELEMENT_COMMAND,
     FORMAT_TEXT_COMMAND,
@@ -27,11 +27,11 @@ import { VscSettings } from 'react-icons/vsc';
 import { defaultStyle } from '../../utils/style';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { sanitizeUrl } from '../../utils';
-import { TOGGLE_TEST_DECORATOR } from '../../nodes';
+import { INSERT_CLOZE_COMMAND } from '../Cloze';
 
 export type SupportedComponents =
     | 'dev-options'
-    | 'test-dec'
+    | 'cloze-button'
     | 'alignment-buttons'
     | 'advanced-format-buttons'
     | 'basic-format-buttons'
@@ -91,11 +91,18 @@ export function DevOptions({ editor }: DevOptionsProps) {
 
 //----------------------------------------------------------------
 
-export function TestDecoratorButton({ editor }: Editor) {
+export function ClozeButton({ editor }: Editor) {
     return (
         <ToolbarComponentContainer>
-            <Button onClick={() => editor.dispatchCommand(TOGGLE_TEST_DECORATOR, 'test-class')}>
-                Dec
+            <Button
+                onClick={() =>
+                    editor.dispatchCommand(INSERT_CLOZE_COMMAND, {
+                        text: '',
+                        hint: '',
+                        index: 0,
+                    })
+                }>
+                Cloze
             </Button>
         </ToolbarComponentContainer>
     );

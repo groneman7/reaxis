@@ -3,4 +3,4 @@ export { LinkNode } from '@lexical/link';
 export { ListItemNode, ListNode } from '@lexical/list';
 
 export * from './CalloutNode';
-export * from './TestDec';
+export * from './ClozeNode';

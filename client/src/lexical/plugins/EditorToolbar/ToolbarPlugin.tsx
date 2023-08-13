@@ -20,9 +20,9 @@ import {
     AlignmentButtons,
     BasicFormatButtons,
     BlockSelector,
+    ClozeButton,
     LinkButton,
     UndoRedoButtons,
-    TestDecoratorButton,
 } from './';
 import type { SupportedBlockTypes } from '../../utils/blockTypes';
 import { defaultStyle } from '../../utils/style';
@@ -67,13 +67,13 @@ export function ToolbarPlugin({
         'ol',
     ],
     components = [
-        // 'test-dec',
         'undo-redo-buttons',
         'block-selector',
         'basic-format-buttons',
         'advanced-format-buttons',
         'alignment-buttons',
         'link-button',
+        'cloze-button',
         'dev-options',
     ],
     style,
@@ -95,7 +95,7 @@ export function ToolbarPlugin({
 
     const mapToolbarComponents: Record<SupportedComponents, JSX.Element> = {
         'dev-options': <DevOptions editor={editor} />,
-        'test-dec': <TestDecoratorButton editor={editor} />,
+        'cloze-button': <ClozeButton editor={editor} />,
         'advanced-format-buttons': (
             <AdvancedFormatButtons
                 editor={editor}
