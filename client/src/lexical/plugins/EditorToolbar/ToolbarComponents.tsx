@@ -27,7 +27,7 @@ import { VscSettings } from 'react-icons/vsc';
 import { defaultStyle } from '../../utils/style';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { sanitizeUrl } from '../../utils';
-import { INSERT_CLOZE_COMMAND } from '../Cloze';
+import { TOGGLE_CLOZE_COMMAND } from '../../nodes/ClozeNode';
 
 export type SupportedComponents =
     | 'dev-options'
@@ -90,18 +90,11 @@ export function DevOptions({ editor }: DevOptionsProps) {
 }
 
 //----------------------------------------------------------------
-
-export function ClozeButton({ editor }: Editor) {
+type ClozeProps = { clozeIndex: number | null } & Editor;
+export function ClozeButton({ editor, clozeIndex }: ClozeProps) {
     return (
         <ToolbarComponentContainer>
-            <Button
-                onClick={() =>
-                    editor.dispatchCommand(INSERT_CLOZE_COMMAND, {
-                        text: '',
-                        hint: '',
-                        index: 0,
-                    })
-                }>
+            <Button onClick={() => editor.dispatchCommand(TOGGLE_CLOZE_COMMAND, clozeIndex)}>
                 Cloze
             </Button>
         </ToolbarComponentContainer>
@@ -194,7 +187,10 @@ export function BasicFormatButtons({
                 aria-label="Format Bold"
                 className={isBold ? 'active' : ''}
                 icon={<RxFontBold />}
-                onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
+                onClick={(e) => {
+                    editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
+                    e.stopPropagation();
+                }}
                 style={{
                     ...defaultStyle['button'],
                     borderTopRightRadius: 0,
@@ -206,7 +202,10 @@ export function BasicFormatButtons({
                 aria-label="Format Italics"
                 className={isItalic ? 'active' : ''}
                 icon={<RxFontItalic />}
-                onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')}
+                onClick={(e) => {
+                    editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
+                    e.stopPropagation();
+                }}
                 style={{ ...defaultStyle['button'], borderRadius: 0 }}
                 type={isItalic ? 'primary' : 'default'}
             />
@@ -214,7 +213,10 @@ export function BasicFormatButtons({
                 aria-label="Format Underline"
                 className={isUnderline ? 'active' : ''}
                 icon={<RxUnderline />}
-                onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')}
+                onClick={(e) => {
+                    editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
+                    e.stopPropagation();
+                }}
                 style={{
                     ...defaultStyle['button'],
                     borderTopLeftRadius: 0,
@@ -270,7 +272,7 @@ export function LinkButton({ editor, link }: LinkButtonProps) {
 
     useEffect(() => {
         form.setFieldValue('url', link);
-    }, [link]);
+    }, [form, link]);
 
     const removeLink = () => {
         editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);

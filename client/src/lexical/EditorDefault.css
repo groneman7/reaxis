@@ -14,6 +14,10 @@
     box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
 }
 
+.editor-container.read-only {
+    border: 0;
+}
+
 .editor-content {
     padding: 1.5rem;
     max-height: 500px;

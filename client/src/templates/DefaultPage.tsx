@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Layout } from 'antd';
-import { Flex } from './';
+import { Flex } from '../components/common';
 
 const { Content } = Layout;
 
@@ -13,9 +13,13 @@ type PageProps = {
 
 export function DefaultPage({ children, header, style, toolbar }: PageProps) {
     return (
-        <Content style={{ background: 'white', display: 'flex' }}>
-            <Flex column>
-                <Flex column>
+        <Content style={{ background: 'white' }}>
+            <Flex
+                column
+                flex="1">
+                <Flex
+                    column
+                    flex="1">
                     {header}
                     {toolbar}
                 </Flex>

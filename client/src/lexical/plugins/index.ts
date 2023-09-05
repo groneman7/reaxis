@@ -5,3 +5,6 @@ export { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 export * from './Cloze';
 export * from './LinkPlugin';
 export * from './EditorToolbar';
+
+export * from './ContextMenuPlugin';
+export * from './TextSelectionPlugin';

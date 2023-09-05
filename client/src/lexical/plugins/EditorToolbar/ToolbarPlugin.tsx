@@ -6,7 +6,6 @@ import {
     SELECTION_CHANGE_COMMAND,
     $getSelection,
     $isRangeSelection,
-    // $getNodeByKey,
 } from 'lexical';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { $isParentElementRTL, $isAtNodeEnd } from '@lexical/selection';
@@ -27,6 +26,7 @@ import {
 import type { SupportedBlockTypes } from '../../utils/blockTypes';
 import { defaultStyle } from '../../utils/style';
 import React from 'react';
+import { $isClozeNode } from '../../nodes';
 
 const LowPriority = 1;
 
@@ -84,7 +84,7 @@ export function ToolbarPlugin({
     const [canRedo, setCanRedo] = useState(false);
     const [blockType, setBlockType] = useState('paragraph');
     const [selectedElementKey, setSelectedElementKey] = useState(null);
-    // const [codeLanguage, setCodeLanguage] = useState('');
+    const [clozeIndex, setClozeIndex] = useState<null | number>(null);
     const [isRTL, setIsRTL] = useState(false);
     const [selectedLink, setSelectedLink] = useState(null);
     const [isBold, setIsBold] = useState(false);
@@ -95,7 +95,12 @@ export function ToolbarPlugin({
 
     const mapToolbarComponents: Record<SupportedComponents, JSX.Element> = {
         'dev-options': <DevOptions editor={editor} />,
-        'cloze-button': <ClozeButton editor={editor} />,
+        'cloze-button': (
+            <ClozeButton
+                editor={editor}
+                clozeIndex={clozeIndex}
+            />
+        ),
         'advanced-format-buttons': (
             <AdvancedFormatButtons
                 editor={editor}
@@ -169,6 +174,13 @@ export function ToolbarPlugin({
                 setSelectedLink(parent.__url || node.__url);
             } else {
                 setSelectedLink(null);
+            }
+
+            // Update Cloze
+            if ($isClozeNode(parent) || $isClozeNode(node)) {
+                setClozeIndex(null);
+            } else {
+                setClozeIndex(0);
             }
         }
     }, [editor]);

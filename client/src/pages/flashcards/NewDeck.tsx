@@ -3,9 +3,9 @@ import { Dispatch, useDispatch } from '../../state';
 import { Button, Divider, Form, Input, Select, Typography } from 'antd';
 import {
     DefaultPage,
-    Editor,
     Flex,
     Header,
+    NewFlashcard,
     Spacer,
     Toolbar,
     ToolbarButton,
@@ -103,27 +103,12 @@ export function NewDeck() {
                     {(fields, { add, remove }) => (
                         <>
                             {fields.map(({ key, name, ...restField }) => (
-                                <Flex
-                                    align="center"
-                                    gap={12}
-                                    key={key}>
-                                    <Form.Item
-                                        name={[name, 'front']}
-                                        style={{
-                                            flex: 1,
-                                        }}
-                                        {...restField}>
-                                        <Editor />
-                                    </Form.Item>
-                                    <Form.Item>
-                                        <Button
-                                            onClick={() => remove(name)}
-                                            shape="circle"
-                                            size="small">
-                                            <FiMinus style={{ marginTop: 4 }} />
-                                        </Button>
-                                    </Form.Item>
-                                </Flex>
+                                <NewFlashcard
+                                    key={key}
+                                    name={name}
+                                    remove={remove}
+                                    {...restField}
+                                />
                             ))}
                             <Form.Item>
                                 <Button

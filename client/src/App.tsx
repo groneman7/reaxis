@@ -19,7 +19,12 @@ export default function App() {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <MainNav />
-            <Content style={{ background: 'white', display: 'flex', flexDirection: 'column' }}>
+            <Content
+                style={{
+                    background: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}>
                 <Layout style={{ flex: 1 }}>
                     <Routes>
                         <Route

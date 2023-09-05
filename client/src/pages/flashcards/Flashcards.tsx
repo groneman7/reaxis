@@ -51,7 +51,11 @@ export function Flashcards() {
             <Divider orientation="left">My decks</Divider>
             <Flex
                 gap={32}
-                style={{ height: 296, overflow: 'auto', padding: 16 }}>
+                style={{
+                    height: 296,
+                    overflow: 'auto',
+                    padding: 16,
+                }}>
                 <Link
                     to="decks/new"
                     rel="true">

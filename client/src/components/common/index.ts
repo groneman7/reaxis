@@ -1,5 +1,5 @@
 export * from './Breadcrumbs';
-export * from './DefaultPage';
+export * from '../../templates/DefaultPage';
 export * from './Flex';
 export * from './Header';
 export * from './Icon';

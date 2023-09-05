@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react';
+import { CSSProperties } from 'react';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
@@ -16,15 +16,16 @@ type EditorProps = {
     className?: string;
     components?: SupportedComponents[];
     lorem?: boolean;
+    readOnly?: boolean;
     toolbarStyle?: CSSProperties;
 };
 export function Editor(props: EditorProps) {
-    const { allowedBlocks, className, components, lorem, toolbarStyle } = props;
+    const { allowedBlocks, className, components, lorem, readOnly, toolbarStyle } = props;
 
     const editorConfig = {
         namespace: 'MyEditor',
         theme: editorThemeClasses,
-        onError(error: any) {
+        onError(error: unknown) {
             throw error;
         },
         nodes: [
@@ -37,46 +38,51 @@ export function Editor(props: EditorProps) {
             Nodes.ClozeNode,
         ],
         editorState: lorem ? initial : undefined,
-    };
-
-    const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
-
-    const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-        if (_floatingAnchorElem !== null) {
-            setFloatingAnchorElem(_floatingAnchorElem);
-        }
+        editable: !readOnly,
     };
 
     return (
         <>
-            <div className={`editor-container ${className}`}>
+            <div className={`editor-container ${readOnly ? 'read-only' : ''} ${className} `}>
                 <LexicalComposer initialConfig={editorConfig}>
-                    <Plugins.ToolbarPlugin
-                        allowedBlocks={allowedBlocks}
-                        components={components}
-                        style={{ ...toolbarStyle }}
-                    />
-                    <Plugins.RichTextPlugin
-                        contentEditable={
-                            <div className="editor-scroller">
-                                <div ref={onRef}>
-                                    <ContentEditable className="editor-content" />
+                    {!readOnly ? (
+                        <>
+                            <Plugins.ToolbarPlugin
+                                allowedBlocks={allowedBlocks}
+                                components={components}
+                                style={{ ...toolbarStyle }}
+                            />
+                            <Plugins.RichTextPlugin
+                                contentEditable={
+                                    <div className="editor-scroller">
+                                        <div>
+                                            <ContentEditable className="editor-content" />
+                                        </div>
+                                    </div>
+                                }
+                                placeholder={null}
+                                ErrorBoundary={LexicalErrorBoundary}
+                            />
+                            <Plugins.HistoryPlugin />
+                            <Plugins.ListPlugin />
+                            <Plugins.LinkPlugin />
+                            {/* <Plugins.TextSelectionPlugin /> */}
+                            <Plugins.ClozePlugin />
+                            <Plugins.ContextMenuPlugin />
+                        </>
+                    ) : (
+                        <Plugins.RichTextPlugin
+                            contentEditable={
+                                <div className="editor-scroller">
+                                    <div>
+                                        <ContentEditable className="editor-content" />
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                        placeholder={null}
-                        ErrorBoundary={LexicalErrorBoundary}
-                    />
-                    <Plugins.HistoryPlugin />
-                    <Plugins.ListPlugin />
-                    <Plugins.LinkPlugin />
-                    <Plugins.FloatingLinkEditorPlugin
-                        anchorElem={floatingAnchorElem || undefined}
-                    />
-                    <Plugins.FloatingTextFormatToolbarPlugin
-                        anchorElem={floatingAnchorElem || undefined}
-                    />
-                    <Plugins.ClozePlugin />
+                            }
+                            placeholder={null}
+                            ErrorBoundary={LexicalErrorBoundary}
+                        />
+                    )}
                 </LexicalComposer>
             </div>
         </>

@@ -33,6 +33,15 @@ export function LexicalTest() {
                     <Title level={4}>Full Editor with Lorem</Title>
                     <Editor lorem />
                 </Flex>
+                <Flex
+                    column
+                    style={{ marginBottom: 32 }}>
+                    <Title level={4}>Read Only</Title>
+                    <Editor
+                        lorem
+                        readOnly
+                    />
+                </Flex>
             </Flex>
         </DefaultPage>
     );
