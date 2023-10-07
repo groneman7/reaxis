@@ -12,79 +12,84 @@ import './EditorDefault.css';
 import { initial } from './utils';
 
 type EditorProps = {
-    allowedBlocks?: SupportedBlockTypes[];
-    className?: string;
-    components?: SupportedComponents[];
-    lorem?: boolean;
-    readOnly?: boolean;
-    toolbarStyle?: CSSProperties;
+  allowedBlocks?: SupportedBlockTypes[];
+  className?: string;
+  components?: SupportedComponents[];
+  defaultState?: string;
+  lorem?: boolean;
+  readOnly?: boolean;
+  toolbarStyle?: CSSProperties;
 };
 export function Editor(props: EditorProps) {
-    const { allowedBlocks, className, components, lorem, readOnly, toolbarStyle } = props;
+  const { allowedBlocks, className, components, defaultState, lorem, readOnly, toolbarStyle } =
+    props;
 
-    const editorConfig = {
-        namespace: 'MyEditor',
-        theme: editorThemeClasses,
-        onError(error: unknown) {
-            throw error;
-        },
-        nodes: [
-            Nodes.HeadingNode,
-            Nodes.LinkNode,
-            Nodes.ListNode,
-            Nodes.ListItemNode,
-            Nodes.QuoteNode,
-            Nodes.CalloutNode,
-            Nodes.ClozeNode,
-        ],
-        editorState: lorem ? initial : undefined,
-        editable: !readOnly,
-    };
+  const editorConfig = {
+    namespace: 'MyEditor',
+    theme: editorThemeClasses,
+    onError(error: unknown) {
+      throw error;
+    },
+    nodes: [
+      Nodes.HeadingNode,
+      Nodes.LinkNode,
+      Nodes.ListNode,
+      Nodes.ListItemNode,
+      Nodes.QuoteNode,
+      Nodes.CalloutNode,
+      Nodes.ClozeNode,
+    ],
+    editorState: defaultState ? defaultState : lorem ? initial : undefined,
+    editable: !readOnly,
+  };
 
-    return (
-        <>
-            <div className={`editor-container ${readOnly ? 'read-only' : ''} ${className} `}>
-                <LexicalComposer initialConfig={editorConfig}>
-                    {!readOnly ? (
-                        <>
-                            <Plugins.ToolbarPlugin
-                                allowedBlocks={allowedBlocks}
-                                components={components}
-                                style={{ ...toolbarStyle }}
-                            />
-                            <Plugins.RichTextPlugin
-                                contentEditable={
-                                    <div className="editor-scroller">
-                                        <div>
-                                            <ContentEditable className="editor-content" />
-                                        </div>
-                                    </div>
-                                }
-                                placeholder={null}
-                                ErrorBoundary={LexicalErrorBoundary}
-                            />
-                            <Plugins.HistoryPlugin />
-                            <Plugins.ListPlugin />
-                            <Plugins.LinkPlugin />
-                            {/* <Plugins.TextSelectionPlugin /> */}
-                            <Plugins.ClozePlugin />
-                            <Plugins.ContextMenuPlugin />
-                        </>
-                    ) : (
-                        <Plugins.RichTextPlugin
-                            contentEditable={
-                                <div className="editor-scroller">
-                                    <div>
-                                        <ContentEditable className="editor-content" />
-                                    </div>
-                                </div>
-                            }
-                            placeholder={null}
-                            ErrorBoundary={LexicalErrorBoundary}
-                        />
-                    )}
-                </LexicalComposer>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className={`editor-container ${readOnly ? 'read-only' : ''} ${className} `}>
+        <LexicalComposer initialConfig={editorConfig}>
+          {!readOnly ? (
+            <>
+              <Plugins.ToolbarPlugin
+                allowedBlocks={allowedBlocks}
+                components={components}
+                style={{ ...toolbarStyle }}
+              />
+              <Plugins.RichTextPlugin
+                contentEditable={
+                  <div className="editor-scroller">
+                    <div>
+                      <ContentEditable className="editor-content" />
+                    </div>
+                  </div>
+                }
+                placeholder={null}
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+              <Plugins.HistoryPlugin />
+              <Plugins.ListPlugin />
+              <Plugins.LinkPlugin />
+              {/* <Plugins.TextSelectionPlugin /> */}
+              <Plugins.ClozePlugin />
+              <Plugins.ContextMenuPlugin />
+            </>
+          ) : (
+            <>
+              <Plugins.RichTextPlugin
+                contentEditable={
+                  <div className="editor-scroller">
+                    <div>
+                      <ContentEditable className="editor-content" />
+                    </div>
+                  </div>
+                }
+                placeholder={null}
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+              <Plugins.ClozePlugin />
+            </>
+          )}
+        </LexicalComposer>
+      </div>
+    </>
+  );
 }
