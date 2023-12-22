@@ -33,22 +33,6 @@
     animation: flipdown 120ms ease-in-out;
 }
 
-.cloze {
-    border-radius: 6px;
-    color: #2f54eb;
-    cursor: pointer;
-    padding: 0 2px;
-    transition: background 120ms ease-in-out;
-}
-
-.cloze-hidden {
-    user-select: none;
-}
-
-.cloze-hidden:hover {
-    background: #d6e4ff;
-}
-
 .again:hover {
     background: #fa541c !important;
     border-color: #fa541c !important;

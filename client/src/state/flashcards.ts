@@ -1,7 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import { RootModel, createModel } from '.';
+import type { Deck } from '../../../types';
 
 type FlashcardsState = {
+    activeDeckId: string;
     decks: {
         list: any[];
     };
@@ -15,6 +17,7 @@ type FlashcardsState = {
 
 export const flashcards = createModel<RootModel>()({
     state: {
+        activeDeckId: '',
         decks: {
             list: [],
         },
@@ -56,7 +59,7 @@ export const flashcards = createModel<RootModel>()({
     effects: (dispatch) => ({
         async getDecksList(deckIds: string[]) {
             try {
-                const { data } = await axios({
+                 const { data } = await axios({
                     method: 'get',
                     url: 'http://localhost:9000/api/decks',
                     params: { deckIds },
@@ -78,6 +81,22 @@ export const flashcards = createModel<RootModel>()({
                     params: { deckId },
                 });
                 dispatch.flashcards.NOTES_LOAD(data);
+            } catch (ex) {
+                if (ex instanceof AxiosError) {
+                    console.warn(
+                        `${ex.message}. Check that Reaxis API is running and available.`
+                    );
+                }
+            }
+        },
+        async publishNewDeck(deck: Deck) {
+            try {
+                const test = await axios({
+                    method: 'post',
+                    url: 'https://localhost:9000/api/decks',
+                    data: { ...deck },
+                });
+                console.log(test);
             } catch (ex) {
                 if (ex instanceof AxiosError) {
                     console.warn(

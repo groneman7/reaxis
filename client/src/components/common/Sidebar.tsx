@@ -1,9 +1,8 @@
-import { Button, Layout, Typography } from 'antd';
+import { Button, Layout } from 'antd';
 import { Flex, Spacer } from './';
 import { ChevronRight } from 'lucide-react';
 
 const { Sider } = Layout;
-const { Title } = Typography;
 
 type SidebarProps = {
     isOpen: boolean;

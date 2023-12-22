@@ -1,36 +1,67 @@
 .cloze-container:read-write {
-  border-bottom: 2px solid #adc6ff;
+    border-bottom: 2px solid #adc6ff;
 }
 
 .cloze-container:read-write:hover {
-  border-bottom: 2px solid #2f54eb;
-  transition: border 100ms ease-in-out;
+    border-bottom: 2px solid #2f54eb;
+    transition: border 100ms ease-in-out;
 }
 
 .cloze-container:read-write::after {
-  background: #edf2f7;
-  border-radius: 0 0 2px 2px;
-  color: white;
-  content: '1';
-  font-size: 0.625rem;
-  font-weight: 700;
-  height: 0px;
-  line-height: 1.625;
-  opacity: 0;
-  padding-right: 0px;
-  position: absolute;
-  text-align: center;
-  transform: translate(-100%, 20px);
-  width: 16px;
+    background: #edf2f7;
+    border-radius: 0 0 2px 2px;
+    color: white;
+    content: '1';
+    font-size: 0.625rem;
+    font-weight: 700;
+    height: 0px;
+    line-height: 1.625;
+    opacity: 0;
+    padding-right: 0px;
+    position: absolute;
+    text-align: center;
+    transform: translate(-100%, 20px);
+    width: 16px;
 }
 
 .cloze-container:read-write:hover::after {
-  background: #2f54eb;
-  height: 16px;
-  opacity: 1;
-  transition: height 100ms ease-in-out;
+    background-color: #2f54eb;
+    height: 16px;
+    opacity: 1;
+    transition: height 100ms ease-in-out;
 }
 
 .cloze-container:read-only.cloze-revealed {
-  border: 1px solid lime;
+    animation: reveal-cloze 750ms;
+    border-radius: 4px;
+    user-select: text;
+}
+
+.cloze-container:read-only.cloze-hidden {
+    background-color: #d6e4ff;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px #d6e4ff;
+    color: transparent;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cloze-container:read-only.cloze-hidden:hover {
+    background-color: #adc6ff;
+    box-shadow: 0 0 0 2px #adc6ff;
+    transition: background-color 100ms ease-in-out, box-shadow 100ms ease-in-out;
+}
+
+@keyframes reveal-cloze {
+    0% {
+        background-color: #2f54eb;
+        box-shadow: 0 0 0 2px #2f54eb;
+        color: white;
+    }
+
+    100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 2px transparent;
+        color: unset;
+    }
 }

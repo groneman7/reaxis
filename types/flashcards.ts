@@ -5,7 +5,7 @@ export interface Card {
 }
 
 export interface Collaboration {
-    collaborators?: string[];
+    collaborators?: { userId: string; permission: 'editor' | 'commenter' | 'owner' }[];
     notifications?: string[];
     subscriptions?: string[]; // List of users who will receive notifications.
 }
@@ -19,10 +19,12 @@ export interface Collection extends Collaboration {
 
 export interface Deck extends Collaboration {
     _id: string;
+    description: string;
     name: string;
     notes: string[];
     owner: string;
     parentId?: string;
+    visibility: 'draft' | 'closed' | 'private' | 'public'; // Draft: Deck is not valid and/or has not been published for the first time; Closed: Deck is only accessible to the owner (and editors?); Private: Deck is only accessible to its collaborators and others who have specifically been granted access; Public: Deck is accessible to everyone and can be found in a general search of all Reaxis decks.
 }
 
 export interface DetailBlock {

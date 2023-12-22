@@ -1,5 +1,6 @@
 import { Dispatch, RootState, useDispatch, useSelector } from '../../state';
-import { Button, Layout, Menu, MenuProps, Typography, theme } from 'antd';
+import { Button, Layout, Menu, Typography, theme } from 'antd';
+import type { MenuProps } from 'antd';
 import { Flex, Spacer } from './';
 import {
     ChevronLeft,
@@ -11,6 +12,7 @@ import {
 } from 'lucide-react';
 import { MdEditNote } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { Key, ReactNode } from 'react';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -29,6 +31,54 @@ const defaultProps = {
         style: { marginRight: 8 },
     },
 };
+
+type MenuItem = Required<MenuProps>['items'][number];
+function getItem(
+    label: ReactNode,
+    key: Key,
+    icon?: ReactNode,
+    children?: MenuItem[],
+    type?: 'group'
+): MenuItem {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    } as MenuItem;
+}
+
+const items: MenuProps['items'] = [
+    getItem(
+        <Link to="/flashcards">Flashcards</Link>,
+        '0',
+        <Layers {...defaultProps['icon']} />
+    ),
+    getItem(
+        <Link to="/questions">Questions</Link>,
+        '1',
+        <ListOrdered {...defaultProps['icon']} />
+    ),
+    getItem(
+        <Link to="/diagrams">Diagrams</Link>,
+        '2',
+        <GitFork
+            {...defaultProps['icon']}
+            style={{ marginRight: 8, transform: 'rotate(90deg)' }}
+        />
+    ),
+    getItem(
+        <Link to="/simulations">Simulations</Link>,
+        '3',
+        <Stethoscope {...defaultProps['icon']} />
+    ),
+    getItem(
+        <Link to="/lexical">Lexical Editor</Link>,
+        '4',
+        <MdEditNote style={{ marginRight: 8 }} />
+    ),
+];
 
 export function MainNav() {
     const { token } = useToken();
@@ -110,29 +160,7 @@ export function MainNav() {
                         </Title>
                     </Link>
                 </Flex>
-                <Menu>
-                    <Menu.Item icon={<Layers {...defaultProps['icon']} />}>
-                        <Link to="/flashcards">Flashcards</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<ListOrdered {...defaultProps['icon']} />}>
-                        <Link to="/questions">Questions</Link>
-                    </Menu.Item>
-                    <Menu.Item
-                        icon={
-                            <GitFork
-                                {...defaultProps['icon']}
-                                style={{ marginRight: 8, transform: 'rotate(90deg)' }}
-                            />
-                        }>
-                        <Link to="/diagrams">Diagrams</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<Stethoscope {...defaultProps['icon']} />}>
-                        <Link to="/simulations">Simulations</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<MdEditNote style={{ marginRight: 8 }} />}>
-                        <Link to="/lexical">Lexical Editor</Link>
-                    </Menu.Item>
-                </Menu>
+                <Menu items={items} />
                 <Spacer />
                 <Menu
                     items={[

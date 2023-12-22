@@ -7,7 +7,7 @@ import {
     UNDO_COMMAND,
 } from 'lexical';
 import { supportedBlockTypes, SupportedBlockTypes } from '../../utils/blockTypes';
-import { Button, Dropdown, Form, Input, Popover } from 'antd';
+import { Button, Dropdown, Form, Input, InputNumber, Popover } from 'antd';
 import type { MenuProps } from 'antd';
 import { CgRedo, CgTrash, CgUndo } from 'react-icons/cg';
 import {
@@ -27,7 +27,8 @@ import { VscSettings } from 'react-icons/vsc';
 import { defaultStyle } from '../../utils/style';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { sanitizeUrl } from '../../utils';
-import { TOGGLE_CLOZE_COMMAND } from '../../nodes/ClozeNode';
+import { CLOZE_COMMAND } from '../../nodes/ClozeNode';
+// import { useClozeContext } from '..';
 
 export type SupportedComponents =
     | 'dev-options'
@@ -90,13 +91,35 @@ export function DevOptions({ editor }: DevOptionsProps) {
 }
 
 //----------------------------------------------------------------
-type ClozeProps = { clozeIndex: number | null } & Editor;
-export function ClozeButton({ editor, clozeIndex }: ClozeProps) {
+type ClozeProps = { clozeVariant: number | null } & Editor;
+export function ClozeButton({ editor, clozeVariant }: ClozeProps) {
+    // const clozeCount = useClozeContext() || 0; // Do I want this to default to 0?
+
     return (
         <ToolbarComponentContainer>
-            <Button onClick={() => editor.dispatchCommand(TOGGLE_CLOZE_COMMAND, clozeIndex)}>
-                Cloze
-            </Button>
+            <Popover
+                content={
+                    <>
+                        <InputNumber
+                            keyboard
+                            min={1}
+                            max={10}
+                            value={clozeVariant}
+                        />
+                        {clozeVariant === null ? (
+                            <Button onClick={() => editor.dispatchCommand(CLOZE_COMMAND, true)}>
+                                Add
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={() => editor.dispatchCommand(CLOZE_COMMAND, false)}>
+                                Remove
+                            </Button>
+                        )}
+                    </>
+                }>
+                <Button type={clozeVariant === null ? 'default' : 'primary'}>Cloze</Button>
+            </Popover>
         </ToolbarComponentContainer>
     );
 }

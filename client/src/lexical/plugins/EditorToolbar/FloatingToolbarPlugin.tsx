@@ -129,57 +129,58 @@ function useFloatingTextFormatToolbar(
             // Should not to pop up the floating toolbar when using IME input
             if (editor.isComposing()) {
                 return;
-        
-            const selection = $getSelection();
-            const nativeSelection = window.getSelection();
-            const rootElement = editor.getRootElement();
 
-            if (
-                nativeSelection !== null &&
-                (!$isRangeSelection(selection) ||
-                    rootElement === null ||
-                    !rootElement.contains(nativeSelection.anchorNode))
-            ) {
-                setIsText(false);
-                return;
-            }
+                // const selection = $getSelection();
+                // const nativeSelection = window.getSelection();
+                // const rootElement = editor.getRootElement();
 
-            if (!$isRangeSelection(selection)) {
-                return;
-            }
+                // if (
+                //     nativeSelection !== null &&
+                //     (!$isRangeSelection(selection) ||
+                //         rootElement === null ||
+                //         !rootElement.contains(nativeSelection.anchorNode))
+                // ) {
+                //     setIsText(false);
+                //     return;
+                // }
 
-            const node = getSelectedNode(selection);
+                // if (!$isRangeSelection(selection)) {
+                //     return;
+                // }
 
-            // Update text format
-            setIsBold(selection.hasFormat('bold'));
-            setIsItalic(selection.hasFormat('italic'));
-            setIsUnderline(selection.hasFormat('underline'));
-            setIsStrikethrough(selection.hasFormat('strikethrough'));
-            setIsSubscript(selection.hasFormat('subscript'));
-            setIsSuperscript(selection.hasFormat('superscript'));
-            setIsCode(selection.hasFormat('code'));
+                // const node = getSelectedNode(selection);
 
-            // Update links
-            const parent = node.getParent();
-            if ($isLinkNode(parent) || $isLinkNode(node)) {
-                setIsLink(true);
-            } else {
-                setIsLink(false);
-            }
+                // // Update text format
+                // setIsBold(selection.hasFormat('bold'));
+                // setIsItalic(selection.hasFormat('italic'));
+                // setIsUnderline(selection.hasFormat('underline'));
+                // setIsStrikethrough(selection.hasFormat('strikethrough'));
+                // setIsSubscript(selection.hasFormat('subscript'));
+                // setIsSuperscript(selection.hasFormat('superscript'));
+                // setIsCode(selection.hasFormat('code'));
 
-            if (
-                !$isCodeHighlightNode(selection.anchor.getNode()) &&
-                selection.getTextContent() !== ''
-            ) {
-                setIsText($isTextNode(node));
-            } else {
-                setIsText(false);
-            }
+                // // Update links
+                // const parent = node.getParent();
+                // if ($isLinkNode(parent) || $isLinkNode(node)) {
+                //     setIsLink(true);
+                // } else {
+                //     setIsLink(false);
+                // }
 
-            const rawTextContent = selection.getTextContent().replace(/\n/g, '');
-            if (!selection.isCollapsed() && rawTextContent === '') {
-                setIsText(false);
-                return;
+                // if (
+                //     !$isCodeHighlightNode(selection.anchor.getNode()) &&
+                //     selection.getTextContent() !== ''
+                // ) {
+                //     setIsText($isTextNode(node));
+                // } else {
+                //     setIsText(false);
+                // }
+
+                // const rawTextContent = selection.getTextContent().replace(/\n/g, '');
+                // if (!selection.isCollapsed() && rawTextContent === '') {
+                //     setIsText(false);
+                //     return;
+                // }
             }
         });
     }, [editor]);

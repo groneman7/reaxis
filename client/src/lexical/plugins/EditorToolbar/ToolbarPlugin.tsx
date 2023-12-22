@@ -84,7 +84,7 @@ export function ToolbarPlugin({
     const [canRedo, setCanRedo] = useState(false);
     const [blockType, setBlockType] = useState('paragraph');
     const [selectedElementKey, setSelectedElementKey] = useState(null);
-    const [clozeIndex, setClozeIndex] = useState<null | number>(null);
+    const [clozeVariant, setClozeVariant] = useState<null | number>(null);
     const [isRTL, setIsRTL] = useState(false);
     const [selectedLink, setSelectedLink] = useState(null);
     const [isBold, setIsBold] = useState(false);
@@ -98,7 +98,7 @@ export function ToolbarPlugin({
         'cloze-button': (
             <ClozeButton
                 editor={editor}
-                clozeIndex={clozeIndex}
+                clozeVariant={clozeVariant}
             />
         ),
         'advanced-format-buttons': (
@@ -178,9 +178,9 @@ export function ToolbarPlugin({
 
             // Update Cloze
             if ($isClozeNode(parent) || $isClozeNode(node)) {
-                setClozeIndex(null);
+                setClozeVariant(parent.__variant || node.__variant);
             } else {
-                setClozeIndex(0);
+                setClozeVariant(null);
             }
         }
     }, [editor]);
