@@ -6,6 +6,7 @@ import {
     SELECTION_CHANGE_COMMAND,
     $getSelection,
     $isRangeSelection,
+    $nodesOfType,
 } from 'lexical';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { $isParentElementRTL, $isAtNodeEnd } from '@lexical/selection';
@@ -26,7 +27,7 @@ import {
 import type { SupportedBlockTypes } from '../../utils/blockTypes';
 import { defaultStyle } from '../../utils/style';
 import React from 'react';
-import { $isClozeNode } from '../../nodes';
+import { $isClozeNode, ClozeNode } from '../../nodes';
 
 const LowPriority = 1;
 
@@ -44,6 +45,15 @@ function getSelectedNode(selection: any) {
     } else {
         return $isAtNodeEnd(anchor) ? focusNode : anchorNode;
     }
+}
+
+function determineMaxCloze(): number {
+    const clozeNodes = $nodesOfType(ClozeNode);
+    const variants = clozeNodes.map((node: ClozeNode) => {
+        return node.getVariant();
+    });
+    const sorted = variants.sort((a: number, b: number) => b - a);
+    return sorted[0];
 }
 
 type ToolbarPluginProps = {
@@ -85,6 +95,7 @@ export function ToolbarPlugin({
     const [blockType, setBlockType] = useState('paragraph');
     const [selectedElementKey, setSelectedElementKey] = useState(null);
     const [clozeVariant, setClozeVariant] = useState<null | number>(null);
+    const [maxCloze, setMaxCloze] = useState<number>(0);
     const [isRTL, setIsRTL] = useState(false);
     const [selectedLink, setSelectedLink] = useState(null);
     const [isBold, setIsBold] = useState(false);
@@ -99,6 +110,7 @@ export function ToolbarPlugin({
             <ClozeButton
                 editor={editor}
                 clozeVariant={clozeVariant}
+                maxCloze={maxCloze}
             />
         ),
         'advanced-format-buttons': (
@@ -182,6 +194,7 @@ export function ToolbarPlugin({
             } else {
                 setClozeVariant(null);
             }
+            setMaxCloze(determineMaxCloze());
         }
     }, [editor]);
 

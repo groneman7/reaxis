@@ -1,5 +1,5 @@
 import { Button, Form, Input, Popconfirm } from 'antd';
-import { Flex } from '../../components';
+import { Editor, Flex } from '../../components';
 import { FiMinus } from 'react-icons/fi';
 
 export function NewFlashcard(props: any) {
@@ -13,7 +13,16 @@ export function NewFlashcard(props: any) {
                     flex: 1,
                 }}
                 {...props.restField}>
-                <Input.TextArea autoSize />
+                Front:
+                <Editor
+                    allowedBlocks={['paragraph', 'ol', 'ul']}
+                    components={[
+                        'undo-redo-buttons',
+                        'basic-format-buttons',
+                        'cloze-button',
+                        'dev-options',
+                    ]}
+                />
             </Form.Item>
             <Form.Item
                 name={[props.name, 'back']}
@@ -21,7 +30,11 @@ export function NewFlashcard(props: any) {
                     flex: 1,
                 }}
                 {...props.restField}>
-                <Input.TextArea autoSize />
+                Back:
+                <Editor
+                    allowedBlocks={['paragraph', 'ol', 'ul']}
+                    components={['undo-redo-buttons', 'basic-format-buttons', 'dev-options']}
+                />
             </Form.Item>
             <Form.Item>
                 <Popconfirm

@@ -11,7 +11,7 @@
     background: #edf2f7;
     border-radius: 0 0 2px 2px;
     color: white;
-    content: '1';
+    /* content: '1'; */
     font-size: 0.625rem;
     font-weight: 700;
     height: 0px;
@@ -22,6 +22,37 @@
     text-align: center;
     transform: translate(-100%, 20px);
     width: 16px;
+}
+
+.cloze-variant-1:read-write::after {
+    content: '1';
+}
+.cloze-variant-2:read-write::after {
+    content: '2';
+}
+.cloze-variant-3:read-write::after {
+    content: '3';
+}
+.cloze-variant-4:read-write::after {
+    content: '4';
+}
+.cloze-variant-5:read-write::after {
+    content: '5';
+}
+.cloze-variant-6:read-write::after {
+    content: '6';
+}
+.cloze-variant-7:read-write::after {
+    content: '7';
+}
+.cloze-variant-8:read-write::after {
+    content: '8';
+}
+.cloze-variant-9:read-write::after {
+    content: '9';
+}
+.cloze-variant-10:read-write::after {
+    content: '10';
 }
 
 .cloze-container:read-write:hover::after {

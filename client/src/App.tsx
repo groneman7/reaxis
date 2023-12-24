@@ -11,6 +11,7 @@ import {
     StudyFlashcards,
 } from './pages';
 import './styles/common/app.css';
+import { Questions } from './pages/questions/Questions';
 
 const { Content } = Layout;
 
@@ -53,6 +54,12 @@ export default function App() {
                             <Route
                                 path="study"
                                 element={<StudyFlashcards />}
+                            />
+                        </Route>
+                        <Route path="questions">
+                            <Route
+                                index
+                                element={<Questions />}
                             />
                         </Route>
                     </Routes>

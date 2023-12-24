@@ -59,7 +59,7 @@ export const flashcards = createModel<RootModel>()({
     effects: (dispatch) => ({
         async getDecksList(deckIds: string[]) {
             try {
-                 const { data } = await axios({
+                const { data } = await axios({
                     method: 'get',
                     url: 'http://localhost:9000/api/decks',
                     params: { deckIds },

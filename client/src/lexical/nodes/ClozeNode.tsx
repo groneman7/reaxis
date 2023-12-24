@@ -18,7 +18,7 @@ import {
 import './clozeNode.css';
 import { addClassNamesToElement, removeClassNamesFromElement } from '@lexical/utils';
 
-export const CLOZE_COMMAND: LexicalCommand<boolean> = createCommand('CLOZE_COMMAND');
+export const CLOZE_COMMAND: LexicalCommand<boolean | number> = createCommand('CLOZE_COMMAND');
 
 export type SerializedClozeNode = Spread<
     {
@@ -53,6 +53,7 @@ export class ClozeNode extends ElementNode {
     createDOM(/*config: EditorConfig , editor: LexicalEditor */): HTMLElement {
         const clozeContainer = document.createElement('span');
         clozeContainer.classList.add('cloze-container');
+        clozeContainer.classList.add(`cloze-variant-${this.__variant}`);
         if (this.__revealed) {
             clozeContainer.classList.add('cloze-revealed');
         } else {
@@ -70,6 +71,9 @@ export class ClozeNode extends ElementNode {
             removeClassNamesFromElement(dom, 'cloze-hidden');
             addClassNamesToElement(dom, 'cloze-revealed');
         }
+        removeClassNamesFromElement(dom, `cloze-variant-${this.__variant + 1}`);
+        removeClassNamesFromElement(dom, `cloze-variant-${this.__variant - 1}`);
+        addClassNamesToElement(dom, `cloze-variant-${this.__variant}`);
         return false;
     }
 
@@ -150,6 +154,25 @@ export function $createClozeNode(variant: number, hint: string | null): ClozeNod
 
 export function $isClozeNode(node: LexicalNode | null | undefined): node is ClozeNode {
     return node instanceof ClozeNode;
+}
+
+export function setClozeVariant(newValue: number): void {
+    const selection = $getSelection();
+    if (!$isRangeSelection(selection)) {
+        return;
+    }
+    const nodes = selection.extract();
+
+    if (nodes.length === 1) {
+        const firstNode = nodes[0];
+        // if the first node is a Cloze node or if its
+        // parent is a Cloze node, we set it to variant 1.
+        const clozeNode = $isClozeNode(firstNode) ? firstNode : $getClozeAncestor(firstNode);
+        if (clozeNode !== null) {
+            clozeNode.setVariant(newValue);
+            return;
+        }
+    }
 }
 
 export function removeCloze(): void {

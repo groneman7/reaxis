@@ -1,2 +1,2 @@
-export * from './ClozeContext';
+// export * from './ClozeContext';
 export * from './ClozePlugin';

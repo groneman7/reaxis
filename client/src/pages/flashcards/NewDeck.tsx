@@ -79,7 +79,7 @@ export function NewDeck() {
                 <Form.Item
                     label="Name"
                     name="name">
-                    <Input />
+                    <Input autoComplete="none" />
                 </Form.Item>
                 <Form.Item
                     name="description"

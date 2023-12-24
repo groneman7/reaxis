@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react';
 import {
     FORMAT_ELEMENT_COMMAND,
     FORMAT_TEXT_COMMAND,
@@ -28,7 +28,8 @@ import { defaultStyle } from '../../utils/style';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { sanitizeUrl } from '../../utils';
 import { CLOZE_COMMAND } from '../../nodes/ClozeNode';
-// import { useClozeContext } from '..';
+
+import { ClozeContext } from '../Cloze';
 
 export type SupportedComponents =
     | 'dev-options'
@@ -91,9 +92,12 @@ export function DevOptions({ editor }: DevOptionsProps) {
 }
 
 //----------------------------------------------------------------
-type ClozeProps = { clozeVariant: number | null } & Editor;
-export function ClozeButton({ editor, clozeVariant }: ClozeProps) {
-    // const clozeCount = useClozeContext() || 0; // Do I want this to default to 0?
+type ClozeProps = { clozeVariant: number | null; maxCloze: number } & Editor;
+export function ClozeButton({ editor, clozeVariant, maxCloze }: ClozeProps) {
+    function handleClozeChange(newValue: number | null) {
+        if (!newValue) return;
+        editor.dispatchCommand(CLOZE_COMMAND, newValue);
+    }
 
     return (
         <ToolbarComponentContainer>
@@ -103,8 +107,11 @@ export function ClozeButton({ editor, clozeVariant }: ClozeProps) {
                         <InputNumber
                             keyboard
                             min={1}
-                            max={10}
+                            max={
+                                10
+                            } /* Note: This value is hard-coded for now, but we may want to consider implementing a more dynamic max Cloze variant in the future. */
                             value={clozeVariant}
+                            onChange={handleClozeChange}
                         />
                         {clozeVariant === null ? (
                             <Button onClick={() => editor.dispatchCommand(CLOZE_COMMAND, true)}>
